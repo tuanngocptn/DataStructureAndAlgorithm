@@ -1,18 +1,20 @@
 package collection;
 
+import com.google.gson.Gson;
+
 public class LinkedLstQueue<E> {
     LinkedLst head;
     LinkedLst tail;
     LinkedLst current;
 
-    class LinkedLst<E> {
+    class LinkedLst {
         E e;
         LinkedLst next;
 
-        public LinkedLst() {
+        private LinkedLst() {
         }
 
-        public LinkedLst(E e, LinkedLst next) {
+        private LinkedLst(E e, LinkedLst next) {
             this.e = e;
             this.next = next;
         }
@@ -22,36 +24,50 @@ public class LinkedLstQueue<E> {
         this.head = this.tail = this.current = null;
     }
 
-    public void add(E e) {
-        LinkedLst linkedLst = new LinkedLst(e,head);
-        if (head == null || tail == null) {
+    public void push(E value) {
+        LinkedLst linkedLst = new LinkedLst(value,null);
+        if (isEmpty()) {
+            linkedLst.next = head;
             head = linkedLst;
             tail = head;
         } else {
-            head = linkedLst;
+            tail.next = linkedLst;
+            tail = linkedLst;
         }
     }
 
     public boolean hasNext() {
-        if (head == null) {
-            return false;
-        }
-        if (current == null) {
-            current = head;
-            return true;
-        } else if (current.next != null) {
-            return true;
-        }
+        if (isEmpty()) return false;
+        else if (current.next != null) return true;
         return false;
     }
 
-    @Override
-    public String toString() {
+    public boolean isEmpty() {
+        return head == null || tail == null;
+    }
+
+    public E pop() {
+        E value = head.e;
+        head = head.next;
+        return value;
+    }
+
+    public E peek() {
+        current = head;
+        return current.e;
+    }
+
+    public String display() {
         LinkedLst linkedLst = head;
+        StringBuilder result = new StringBuilder();
+        Gson gson = new Gson();
+        result = result.append(gson.toJson(linkedLst.e));
+        linkedLst = linkedLst.next;
         while (linkedLst != null) {
-            System.out.print(linkedLst.e.toString() + " ");
+            result.append(",");
+            result = result.append(gson.toJson(linkedLst.e));
             linkedLst = linkedLst.next;
         }
-        return "";
+        return String.format("%s%s%s", "[", result.toString(), "]");
     }
 }
