@@ -4,9 +4,9 @@ import com.google.gson.Gson;
 
 public class LinkedLstDequeue<E> {
 
-    LinkedLst head = null;
-    LinkedLst tail = null;
-    LinkedLst current = null;
+    private LinkedLst head = null;
+    private LinkedLst tail = null;
+    private LinkedLst current = null;
 
     class LinkedLst {
         E e;
