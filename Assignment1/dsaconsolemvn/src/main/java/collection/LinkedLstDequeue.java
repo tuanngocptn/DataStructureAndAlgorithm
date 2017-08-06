@@ -119,13 +119,13 @@ public class LinkedLstDequeue<E> {
         else if (location > length() - 2) deleteLast();
         else {
             LinkedLst linkedLst = head;
-            for (int i = 0; i < location; i++) {
+            for (int i = 0; i < location - 1; i++) {
                 linkedLst = linkedLst.next;
             }
-            E e = linkedLst.next.e;
-            linkedLst.next.next.previous = linkedLst;
-            linkedLst.next = linkedLst.next.next;
-            return e;
+            LinkedLst linkedLstDel = linkedLst.next;
+            LinkedLst linkedLstAft = linkedLstDel.next;
+            linkedLst.next = linkedLstAft;
+            return linkedLstDel.e;
         }
         return null;
     }
@@ -142,5 +142,15 @@ public class LinkedLstDequeue<E> {
             linkedLst.next.previous = linkedLstNew;
             linkedLst.next = linkedLstNew;
         }
+    }
+
+    public E getAt(int location) {
+        if(location < 1) return head.e;
+        if(location > length() - 2) return tail.e;
+        LinkedLst linkedLst = head;
+        for (int i = 0; i < location; i++) {
+            linkedLst = linkedLst.next;
+        }
+        return linkedLst.e;
     }
 }

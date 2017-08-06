@@ -3,9 +3,9 @@ package collection;
 import com.google.gson.Gson;
 
 public class LinkedLstQueue<E> {
-    LinkedLst head;
-    LinkedLst tail;
-    LinkedLst current;
+    LinkedLst head = null;
+    LinkedLst tail = null;
+    LinkedLst current = null;
 
     class LinkedLst {
         E e;
@@ -21,15 +21,13 @@ public class LinkedLstQueue<E> {
     }
 
     public LinkedLstQueue() {
-        this.head = this.tail = this.current = null;
     }
 
     public void push(E value) {
         LinkedLst linkedLst = new LinkedLst(value,null);
         if (isEmpty()) {
             linkedLst.next = head;
-            head = linkedLst;
-            tail = head;
+            tail = head = linkedLst;
         } else {
             tail.next = linkedLst;
             tail = linkedLst;
@@ -58,16 +56,19 @@ public class LinkedLstQueue<E> {
     }
 
     public String display() {
-        LinkedLst linkedLst = head;
-        StringBuilder result = new StringBuilder();
-        Gson gson = new Gson();
-        result = result.append(gson.toJson(linkedLst.e));
-        linkedLst = linkedLst.next;
-        while (linkedLst != null) {
-            result.append(",");
+        if (!isEmpty()) {
+            LinkedLst linkedLst = head;
+            StringBuilder result = new StringBuilder();
+            Gson gson = new Gson();
             result = result.append(gson.toJson(linkedLst.e));
             linkedLst = linkedLst.next;
+            while (linkedLst != null) {
+                result.append(",");
+                result = result.append(gson.toJson(linkedLst.e));
+                linkedLst = linkedLst.next;
+            }
+            return String.format("%s%s%s", "[", result.toString(), "]");
         }
-        return String.format("%s%s%s", "[", result.toString(), "]");
+        return "[]";
     }
 }
