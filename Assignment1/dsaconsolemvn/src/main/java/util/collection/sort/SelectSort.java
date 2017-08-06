@@ -1,7 +1,6 @@
-package sort;
+package util.collection.sort;
 
-import collection.LinkedLstDequeue;
-import entities.Customer;
+import util.collection.LinkedLstDequeue;
 
 public abstract class SelectSort<E> implements Sort {
     @Override

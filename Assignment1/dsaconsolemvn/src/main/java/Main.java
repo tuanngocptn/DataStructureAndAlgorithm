@@ -1,8 +1,6 @@
-import collection.LinkedLstDequeue;
-import entities.Customer;
+import util.collection.LinkedLstDequeue;
+import model.entities.Customer;
 import model.CustomerModel;
-import sort.SelectSort;
-import sort.Sort;
 
 public class Main {
     @SuppressWarnings("unchecked")

@@ -1,4 +1,4 @@
-package collection;
+package util.collection;
 
 import com.google.gson.Gson;
 

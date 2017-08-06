@@ -1,6 +1,6 @@
-package sort;
+package util.collection.sort;
 
-import collection.LinkedLstDequeue;
+import util.collection.LinkedLstDequeue;
 
 public interface Sort<E> {
     boolean compare(E o,E o1);

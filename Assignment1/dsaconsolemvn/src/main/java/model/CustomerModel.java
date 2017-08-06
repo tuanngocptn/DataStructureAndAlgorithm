@@ -1,14 +1,14 @@
 package model;
 
-import collection.LinkedLstDequeue;
-import entities.Customer;
+import util.collection.LinkedLstDequeue;
+import model.entities.Customer;
 import etc.Constants;
 import model.iofile.ReadFile;
 import model.iofile.WriteFile;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import sort.SelectSort;
-import sort.Sort;
+import util.collection.sort.SelectSort;
+import util.collection.sort.Sort;
 
 public class CustomerModel {
 
