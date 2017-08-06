@@ -14,4 +14,8 @@ public class Constants {
 
     public static String CUSTOMER_PHONE = "phone";
 
+    public static String TYPE_SORT = "select";
+
+    public static String SELECT_SORT = "select";
+
 }

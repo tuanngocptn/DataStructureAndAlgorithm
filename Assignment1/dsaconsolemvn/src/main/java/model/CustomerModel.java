@@ -7,6 +7,8 @@ import model.iofile.ReadFile;
 import model.iofile.WriteFile;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import sort.SelectSort;
+import sort.Sort;
 
 public class CustomerModel {
 
@@ -57,6 +59,32 @@ public class CustomerModel {
                 saveAll(linkedLstDequeue);
                 return true;
             }
+        }
+        return false;
+    }
+
+
+    @SuppressWarnings("unchecked")
+    public static boolean sort(final boolean isLowToHigh){
+        LinkedLstDequeue<Customer> customerLinkedLstDequeue = getAll();
+        Sort<Customer> customerSort = null;
+        if(Constants.TYPE_SORT.equals(Constants.SELECT_SORT)){
+            customerSort = new SelectSort<Customer>() {
+                @Override
+                public boolean compare(Object o, Object o1) {
+                    Customer customer = (Customer) o;
+                    Customer customer1 = (Customer) o1;
+                    if (isLowToHigh)
+                        return customer.getCcode().compareTo(customer1.getCcode()) > 0;
+                    else
+                        return customer.getCcode().compareTo(customer1.getCcode()) < 0;
+                }
+            };
+        }
+        if (customerSort!=null) {
+            customerLinkedLstDequeue = customerSort.sort(customerLinkedLstDequeue);
+            saveAll(customerLinkedLstDequeue);
+            return true;
         }
         return false;
     }
