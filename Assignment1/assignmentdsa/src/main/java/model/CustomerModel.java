@@ -37,6 +37,11 @@ public class CustomerModel {
 
     public static boolean add(Customer customer){
         LinkedLstDequeue<Customer> linkedLstDequeue = getAll();
+        for(int i = 0; i<linkedLstDequeue.length();i++){
+        	if(linkedLstDequeue.getAt(i).getCcode().equals(customer.getCcode())){
+        		return false;
+        	}
+        }
         linkedLstDequeue.insertLast(customer);
         return saveAll(linkedLstDequeue);
     }

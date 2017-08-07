@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+</head>
+
+<body>
+    <button id="btn1">button</button>
+    <input type="text" name="ccode" id="ccode">
+    <input type="text" name="cusName" id="cusName">
+    <input type="text" name="phone" id="phone">
+</body>
+
+</html>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/constants.js"></script>
+<script type="text/javascript" src="js/control/customer.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#btn1').click(function() {
+    	var obj = customer.getAll();
+    	if(obj.length > 0){
+    		console.log(obj);
+    	}
+    	
+    });
+});
+</script>
