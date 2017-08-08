@@ -2,7 +2,7 @@ package util.collection;
 
 import com.google.gson.Gson;
 
-public class LinkedLstQueue<E> {
+public class LinkedLstStack<E> {
     LinkedLst head = null;
     LinkedLst tail = null;
     LinkedLst current = null;
@@ -20,17 +20,17 @@ public class LinkedLstQueue<E> {
         }
     }
 
-    public LinkedLstQueue() {
+    public LinkedLstStack() {
     }
 
     public void push(E value) {
         LinkedLst linkedLst = new LinkedLst(value,null);
         if (isEmpty()) {
-            linkedLst.next = head;
-            tail = head = linkedLst;
+            linkedLst.next = tail;
+            current = tail = head = linkedLst;
         } else {
-            tail.next = linkedLst;
-            tail = linkedLst;
+            linkedLst.next = head;
+            head = linkedLst;
         }
     }
 
@@ -41,13 +41,16 @@ public class LinkedLstQueue<E> {
     }
 
     public boolean isEmpty() {
-        return head == null || tail == null;
+        return head == null || tail == null || current == null;
     }
 
     public E pop() {
-        E value = head.e;
-        head = head.next;
-        return value;
+        if(!isEmpty()) {
+            E value = head.e;
+            head = head.next;
+            return value;
+        }
+        return null;
     }
 
     public E peek() {
@@ -55,20 +58,28 @@ public class LinkedLstQueue<E> {
         return current.e;
     }
 
+    public E get(){
+        E e = null;
+        if(current != null){
+            e = current.e;
+            current = current.next;
+        }
+        return e;
+    }
+
     public String display() {
         if (!isEmpty()) {
-            LinkedLst linkedLst = head;
+            peek();
             StringBuilder result = new StringBuilder();
             Gson gson = new Gson();
-            result = result.append(gson.toJson(linkedLst.e));
-            linkedLst = linkedLst.next;
-            while (linkedLst != null) {
+            result = result.append(gson.toJson(get()));
+            while (!isEmpty()) {
                 result.append(",");
-                result = result.append(gson.toJson(linkedLst.e));
-                linkedLst = linkedLst.next;
+                result = result.append(gson.toJson(get()));
             }
             return String.format("%s%s%s", "[", result.toString(), "]");
         }
+        peek();
         return "[]";
     }
 }

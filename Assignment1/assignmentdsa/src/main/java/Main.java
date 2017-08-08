@@ -1,24 +1,25 @@
+import model.ProductModel;
+import model.entities.Product;
 import util.collection.LinkedLstDequeue;
 import model.entities.Customer;
 import model.CustomerModel;
+import util.collection.LinkedLstStack;
 
 public class Main {
     @SuppressWarnings("unchecked")
     public static void main(String[] args) {
-        LinkedLstDequeue<Customer> customerLinkedLstDequeue = new LinkedLstDequeue<Customer>();
+        LinkedLstStack<Product> linkedLstStack = new LinkedLstStack<Product>();
         for (int i = 3; i >= 0; i--) {
-            Customer customer = new Customer();
-            customer.setCcode("c" + i);
-            customer.setCusName("name");
-            customer.setPhone(Integer.toString(i));
-            customerLinkedLstDequeue.insertLast(customer);
+            Product product = new Product();
+            product.setPrice(i);
+            product.setSaled(i);
+            product.setQuantity(i);
+            product.setProName(""+i);
+            product.setPcode(""+i);
+            linkedLstStack.push(product);
         }
-        CustomerModel.saveAll(customerLinkedLstDequeue);
-
-        System.out.println(CustomerModel.getAll().displayForward());
-
-        CustomerModel.sort(true);
-        System.out.println(CustomerModel.getAll().displayForward());
+        ProductModel.saveAll(linkedLstStack);
+        System.out.println(ProductModel.getAll().display());
     }
 
 }

@@ -20,14 +20,6 @@ import model.iofile.ReadFile;
  */
 public class Product extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String ACTION = "action";
-	private static final String GET_ALL_ACTION = "getAll";
-	private static final String ADD_ACTION = "add";
-	private static final String DELETE_ACTION = "delete";
-	private static final String CODE_PARAM = "ccode";
-	private static final String NAME_PARAM = "cusName";
-	private static final String PHONE_PARAM = "phone";
-	private static final String DEFAULT_RESULT = "[]";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -50,55 +42,7 @@ public class Product extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		Init.setHeader(request, response);
-		PrintWriter print = response.getWriter();
-		String action = request.getParameter(ACTION);
-		if (StringUtils.isBlank(action)) {
-			Init.badRequest(response);
-			return;
-		}
-		
-		if (action.equals(GET_ALL_ACTION)) {
-			print.write(ReadFile.read(Constants.CUSTOMER_DATA_URL));
-			return;
-		}
-		
-		if(action.equals(ADD_ACTION)){
-			String ccode = request.getParameter(CODE_PARAM);
-			String cusName = request.getParameter(NAME_PARAM);
-			String phone = request.getParameter(PHONE_PARAM);
-			if(StringUtils.isBlank(ccode) || StringUtils.isBlank(cusName) || StringUtils.isBlank(phone)){
-				Init.badRequest(response);
-				return;
-			}
-			Customer customer = new Customer();
-			customer.setCcode(ccode);
-			customer.setCusName(cusName);
-			customer.setPhone(phone);
-			if(CustomerModel.add(customer)){
-				print.write(ReadFile.read(Constants.CUSTOMER_DATA_URL));
-				return;
-			}
-			Init.forbidden(response);
-			return;
-		}		
-		
-		if(action.equals(DELETE_ACTION)){
-			String ccode = request.getParameter(CODE_PARAM);
-			if(StringUtils.isBlank(ccode)){
-				Init.badRequest(response);
-				return;
-			}
-			if(CustomerModel.deleteByCode(ccode)){
-				print.write(ReadFile.read(Constants.CUSTOMER_DATA_URL));
-				return;
-			}
-			Init.forbidden(response);
-			return;
-		}
-		print.write(DEFAULT_RESULT);
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	}
 
 }
