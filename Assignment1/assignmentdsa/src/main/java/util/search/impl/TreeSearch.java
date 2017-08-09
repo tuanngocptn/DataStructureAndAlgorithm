@@ -74,6 +74,65 @@ public abstract class TreeSearch<E> implements Search<E>{
 	    preOrder(tree.right);
 	}
 	
+//	int compare(Class cl, Object o1, Object o2){
+//		if(cl.equals(Customer.class)){
+//			Customer customer1 = (Customer) o1;
+//			Customer customer2 = (Customer) o2;
+//			return customer1.getCcode().compareTo(customer2.getCcode());
+//		}
+//		if(cl.equals(Product.class)){
+//			Product product1 = (Product) o1;
+//			Product product2 = (Product) o2;
+//			return product1.getPcode().compareTo(product2.getPcode());
+//		}
+//		return 0;
+//	}
+	
+//	public static TreeSearch<Object> read(Class cl){
+//		JSONArray jsonArray;
+//		if(cl.equals(Customer.class)){
+//			jsonArray = new JSONArray(ReadFile.read(Constants.CUSTOMER_DATA_URL));
+//			TreeSearch<Object> treeSearch = new TreeSearch<Object>();
+//			for(int i =0; i<jsonArray.length();i++){
+//				Customer customer = new Customer();
+//				JSONObject jsonObject = jsonArray.getJSONObject(i);
+//				customer.setCcode(jsonObject.getString(Constants.CUSTOMER_CCODE));
+//				customer.setCusName(jsonObject.getString(Constants.CUSTOMER_CUSNAME));
+//				customer.setPhone(jsonObject.getString(Constants.CUSTOMER_PHONE));
+//				treeSearch.insert(Customer.class, customer);				
+//			}
+//			return treeSearch;
+//		}		
+//		if(cl.equals(Product.class)){
+//			jsonArray = new JSONArray(ReadFile.read(Constants.PRODUCT_DATA_URL));
+//			TreeSearch<Object> treeSearch = new TreeSearch<Object>();
+//			for(int i =0; i<jsonArray.length();i++){
+//				Product product = new Product();
+//				JSONObject jsonObject = jsonArray.getJSONObject(i);
+//				product.setPcode(jsonObject.getString(Constants.PRODUCT_CODE));
+//				product.setProName(jsonObject.getString(Constants.PRODUCT_NAME));
+//				product.setQuantity(jsonObject.getInt(Constants.PRODUCT_QUANTITY));
+//				product.setSaled(jsonObject.getInt(Constants.PRODUCT_SALE));
+//				product.setPrice(jsonObject.getDouble(Constants.PRODUCT_PRICE));
+//				treeSearch.insert(Product.class, product);
+//			}
+//			return treeSearch;
+//		}
+//		/*if(cl.equals(Order.class)){
+//			jsonArray = new JSONArray(ReadFile.read(Constants.PRODUCT_DATA_URL));
+//			Order[] orders = new Order[jsonArray.length()];
+//			for(int i =0; i<jsonArray.length();i++){
+//				Order order = new Order();
+//				JSONObject jsonObject = jsonArray.getJSONObject(i);
+//				order.setCcode(jsonObject.getString(Constants.ORDER_CUSTOMER_CODE));
+//				order.setPcode(jsonObject.getString(Constants.ORDER_PRODUCT_CODE));
+//				order.setQuantity(jsonObject.getInt(Constants.ORDER_QUANTITY));
+//			}
+//			return orders;
+//		}*/	
+//		return null;
+//	}
+	
 	Tree find(Tree findTree, E e){
 		if(findTree == null){
 			return null;
