@@ -1,5 +1,6 @@
 var constants = {
 	name : "constants",
 	host : "http://localhost:8080/",
-	product : "assignmentdsa/Product"
+	product : "assignmentdsa/Product",
+	customer : "assignmentdsa/Customer"
 }

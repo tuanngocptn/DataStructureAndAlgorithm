@@ -10,7 +10,7 @@ $(document).ready(function() {
 var customer = {
 	name:"customer",
 	getAll:function(){
-		var api = constants.host + constants.product;
+		var api = constants.host + constants.customer;
 		$.ajax({
             type: 'POST',
             url: api,
@@ -26,7 +26,7 @@ var customer = {
 	},
 
 	add:function(){
-		var api = constants.host + constants.product;
+		var api = constants.host + constants.customer;
 		var ccodeParam = $('#ccode').val();
 		var cusNameParam = $('#cusName').val();
 		var phoneParam = $('#phone').val();
@@ -44,7 +44,7 @@ var customer = {
         });
 	},
 	delete:function(code){
-		var api = constants.host + constants.product;
+		var api = constants.host + constants.customer;
 		$.ajax({
             type: 'POST',
             url: api,

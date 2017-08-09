@@ -1,6 +1,7 @@
-package util.collection.sort;
+package util.collection.sort.impl;
 
 import util.collection.LinkedLstDequeue;
+import util.collection.sort.Sort;
 
 public abstract class SelectSort<E> implements Sort {
     public LinkedLstDequeue sort(LinkedLstDequeue linkedLstDequeue) {

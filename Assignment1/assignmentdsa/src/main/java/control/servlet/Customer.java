@@ -27,6 +27,7 @@ public class Customer extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter print = response.getWriter();
         String action = request.getParameter(ACTION);
+        Init.setHeader(request, response);
         if (StringUtils.isBlank(action)) {
             Init.badRequest(response);
             return;

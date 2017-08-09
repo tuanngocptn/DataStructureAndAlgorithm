@@ -2,8 +2,8 @@ package etc;
 
 public class Constants {
 	
-	public static String ROOT_PATH = "/home/local/SUTRIXMEDIA1/ngoc.pt/Documents/green/code/DataStructureAndAlgorithm/Assignment1/assignmentdsa/";
-//	public static String ROOT_PATH = "/home/panda/Documents/hoctap/dsa/code/DataStructureAndAlgorithm/Assignment1/assignmentdsa/";
+//	public static String ROOT_PATH = "/home/local/SUTRIXMEDIA1/ngoc.pt/Documents/green/code/DataStructureAndAlgorithm/Assignment1/assignmentdsa/";
+	public static String ROOT_PATH = "/home/panda/Documents/hoctap/dsa/code/DataStructureAndAlgorithm/Assignment1/assignmentdsa/";
 
     public static String CUSTOMER_DATA_URL = "src/main/java/etc/data/customer_list.txt";
 
