@@ -5,10 +5,13 @@ import model.entities.Customer;
 import etc.Constants;
 import model.iofile.ReadFile;
 import model.iofile.WriteFile;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import util.collection.sort.SelectSort;
 import util.collection.sort.Sort;
+import util.search.impl.TreeSearch;
 
 public class CustomerModel {
 
@@ -92,5 +95,28 @@ public class CustomerModel {
         }
         return false;
     }
+    
+    public static TreeSearch<Customer> getTreeSearch(){
+		JSONArray jsonArray = new JSONArray(ReadFile.read(Constants.CUSTOMER_DATA_URL));
+		TreeSearch<Customer> treeSearch = new TreeSearch<Customer>(){
+			public int compare(Customer c1, Customer c2) {
+				return c1.getCcode().compareTo(c2.getCcode());
+			}
+		};
+		for(int i =0; i<jsonArray.length();i++){
+			Customer customer = new Customer();
+			JSONObject jsonObject = jsonArray.getJSONObject(i);
+			customer.setCcode(jsonObject.getString(Constants.CUSTOMER_CCODE));
+			customer.setCusName(jsonObject.getString(Constants.CUSTOMER_CUSNAME));
+			customer.setPhone(jsonObject.getString(Constants.CUSTOMER_PHONE));
+			treeSearch.insert(Customer.class, customer);				
+		}
+		return treeSearch;
+    }
+    
+    public static Customer get(Customer customer) {
+		TreeSearch<Customer> treeSearch = getTreeSearch();
+		return treeSearch.get(customer);
+	}
 
 }

@@ -1,5 +1,6 @@
 package util.search;
 
 public interface Search<E> {
-	Object get(Class cl, String code);
+	E get(E e);
+	int compare(E e1,E e2);
 }
