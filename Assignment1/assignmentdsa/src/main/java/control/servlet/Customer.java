@@ -19,9 +19,6 @@ public class Customer extends HttpServlet {
     private static final String GET_ALL_ACTION = "getAll";
     private static final String ADD_ACTION = "add";
     private static final String DELETE_ACTION = "delete";
-    private static final String CODE_PARAM = "ccode";
-    private static final String NAME_PARAM = "cusName";
-    private static final String PHONE_PARAM = "phone";
     private static final String DEFAULT_RESULT = "[]";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -39,9 +36,9 @@ public class Customer extends HttpServlet {
         }
 
         if (action.equals(ADD_ACTION)) {
-            String ccode = request.getParameter(CODE_PARAM);
-            String cusName = request.getParameter(NAME_PARAM);
-            String phone = request.getParameter(PHONE_PARAM);
+            String ccode = request.getParameter(Constants.CUSTOMER_CCODE);
+            String cusName = request.getParameter(Constants.CUSTOMER_CUSNAME);
+            String phone = request.getParameter(Constants.CUSTOMER_PHONE);
             if (StringUtils.isBlank(ccode) || StringUtils.isBlank(cusName) || StringUtils.isBlank(phone)) {
                 Init.badRequest(response);
                 return;
@@ -59,7 +56,7 @@ public class Customer extends HttpServlet {
         }
 
         if (action.equals(DELETE_ACTION)) {
-            String ccode = request.getParameter(CODE_PARAM);
+            String ccode = request.getParameter(Constants.CUSTOMER_CCODE);
             if (StringUtils.isBlank(ccode)) {
                 Init.badRequest(response);
                 return;
