@@ -4,6 +4,7 @@ import util.collection.LinkedLstDequeue;
 import model.entities.Customer;
 import model.CustomerModel;
 import util.collection.LinkedLstStack;
+import util.search.SearchObject;
 import util.search.impl.TreeSearch;
 
 public class Main {
@@ -21,8 +22,10 @@ public class Main {
         }
         ProductModel.saveAll(linkedLstStack);
         System.out.println(ProductModel.getAll().display());*/
-    	TreeSearch<Customer> treeSearch = new TreeSearch<Customer>();
-    	treeSearch.get(Product.class, "");
+//    	SearchObject<Customer> searchObject = new SearchObject<Customer>();
+    	TreeSearch<Object> treeSearch = TreeSearch.read(Customer.class);
+    	Customer customer = (Customer)treeSearch.get(Customer.class, "c1");
+    	System.out.println(customer.getCcode());
 //    	System.out.print(Customer.class.equals(Customer.class));
     }
 
