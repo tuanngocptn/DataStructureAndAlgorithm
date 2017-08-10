@@ -50,6 +50,8 @@ public class Constants {
     public static final String DELETE_ACTION = "delete";
     
     public static final String SORT_ACTION = "sort";
+
+    public static final String SEARCH_ACTION = "search";    
     
     //Defauld result of servlet
     public static final String DEFAULT_RESULT = "[]";

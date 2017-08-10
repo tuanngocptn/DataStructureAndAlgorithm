@@ -123,6 +123,15 @@ public class Product extends HttpServlet {
             Init.forbidden(response);
             return;
         }
+        if (action.equals(Constants.SEARCH_ACTION)) {
+            String code = request.getParameter(Constants.PRODUCT_CODE);
+            if (StringUtils.isBlank(code)) {
+                Init.badRequest(response);
+                return;
+            }
+            print.write(ProductModel.searchAll(code).displayForward());
+            return;
+        }
         print.write(Constants.DEFAULT_RESULT);
 	}
 

@@ -8,6 +8,10 @@ $(document).ready(function() {
     $('#sortProduct').click(function(){
     	product.sort();
     });
+    $("#cusSearch").on("keypress",function(){
+    	console.log($("#cusSearch").val());
+    	// product.search();
+    });
 });
 
 var product = {
@@ -82,7 +86,23 @@ var product = {
                 console.log(error);
             }
         });
-	} 
+	},	  
+    search:function(){        
+        var api = constants.host + constants.product;
+        var pSearch = $("#cusSearch").val();
+        $.ajax({
+            type: 'POST',
+            url: api,
+            dataType: "JSON",
+            data: {action:"search",pcode:pSearch},
+            success: function(data) {
+                productControl.loadToTblMain(data);
+            },
+            error: function(request, status, error) {
+                console.log(error);
+            }
+        });
+    } 
 }
 
 var productControl = {

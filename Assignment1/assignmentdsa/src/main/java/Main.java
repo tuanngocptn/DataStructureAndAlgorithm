@@ -1,23 +1,24 @@
 import model.ProductModel;
+import model.entities.Customer;
 import model.entities.Product;
-import util.collection.LinkedLstStack;
+import util.search.impl.TreeSearch;
 
 
 public class Main {
     @SuppressWarnings("unchecked")
     public static void main(String[] args) {
-       LinkedLstStack<Product> linkedLstStack = new LinkedLstStack<Product>();
-        for (int i = 0; i < 9; i++) {
-            Product product = new Product();
-            product.setPrice(i);
-            product.setSaled(i);
-            product.setQuantity(i);
-            product.setProName(""+i);
-            product.setPcode(""+i);
-            linkedLstStack.push(product);
-        }
-        ProductModel.saveAll(linkedLstStack);
-        System.out.println(ProductModel.getAll().display());
+//       LinkedLstStack<Product> linkedLstStack = new LinkedLstStack<Product>();
+//        for (int i = 0; i < 9; i++) {
+//            Product product = new Product();
+//            product.setPrice(i);
+//            product.setSaled(i);
+//            product.setQuantity(i);
+//            product.setProName(""+i);
+//            product.setPcode(""+i);
+//            linkedLstStack.push(product);
+//        }
+//        ProductModel.saveAll(linkedLstStack);
+//        System.out.println(ProductModel.getAll().display());
 //        linkedLstStack.peek();
 //        while (linkedLstStack.hasNext()) {
 //            System.out.println(linkedLstStack.get().getPcode());
@@ -32,8 +33,11 @@ public class Main {
 //    	Customer customer = new Customer();
 //    	customer.setCcode("c2");
 //    	System.out.println(CustomerModel.get(customer).getPhone());
-        ProductModel.sort(true);
-        System.out.println(ProductModel.getAll().display());
+//    	Product product = new Product();
+//    	product.setPcode("12342");
+//    	TreeSearch<Product> treeSearch = ProductModel.getTreeSearch();
+    	System.out.println(ProductModel.searchAll("12342").displayForward());
+//        System.out.println(ProductModel.searchAll("1234").displayForward());
     	
     }
 

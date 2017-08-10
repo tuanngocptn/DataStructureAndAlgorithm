@@ -13,6 +13,7 @@ import util.collection.LinkedLstDequeue;
 import util.collection.LinkedLstStack;
 import util.collection.sort.Sort;
 import util.collection.sort.impl.SelectSort;
+import util.search.impl.TreeSearch;
 
 public class ProductModel {
     public static LinkedLstStack<Product> getAll(){
@@ -75,6 +76,35 @@ public class ProductModel {
     	return flag;
     }
     
+    public static TreeSearch<Product> getTreeSearch(){
+		JSONArray jsonArray = new JSONArray(ReadFile.read(Constants.PRODUCT_DATA_URL));
+		TreeSearch<Product> treeSearch = new TreeSearch<Product>(){
+			public int compare(Product c1, Product c2) {
+				return c1.getPcode().compareTo(c2.getPcode());
+			}
+
+			public boolean constains(Product e1, Product e2) {
+				return e1.getPcode().toLowerCase().contains(e2.getPcode().toLowerCase());
+			}
+		};
+		for(int i =0; i<jsonArray.length();i++){
+			JSONObject jsonObject = jsonArray.getJSONObject(i);
+            Product product = new Product();
+            product.setPcode(jsonObject.getString(Constants.PRODUCT_CODE));
+            product.setProName(jsonObject.getString(Constants.PRODUCT_NAME));
+            product.setQuantity(jsonObject.getInt(Constants.PRODUCT_QUANTITY));
+            product.setSaled(jsonObject.getInt(Constants.PRODUCT_SALE));
+            product.setPrice(jsonObject.getDouble(Constants.PRODUCT_PRICE));
+			treeSearch.insert(Product.class, product);				
+		}
+		return treeSearch;
+    }
+    
+    public static Product get(Product product) {
+		TreeSearch<Product> treeSearch = getTreeSearch();
+		return treeSearch.get(product);
+	}
+    
     @SuppressWarnings("unchecked")
     public static boolean sort(final boolean isLowToHigh){
         LinkedLstDequeue<Product> customerLinkedLstDequeue = getAllLinkedLstDequeue();
@@ -114,6 +144,13 @@ public class ProductModel {
             productLinkedLstDequeue.insertLast(product);
         }
         return productLinkedLstDequeue;
+    }   
+    
+    public static LinkedLstDequeue<Product> searchAll(String code){
+    	Product product = new Product();
+    	product.setPcode(code);
+    	TreeSearch<Product> treeSearch = ProductModel.getTreeSearch();
+    	return treeSearch.searchAll(product);
     }
     
     private static boolean saveAllLinkedLstDequeue( LinkedLstDequeue<Product> productLinkedLstDequeue){

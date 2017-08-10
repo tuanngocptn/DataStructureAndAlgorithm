@@ -81,7 +81,7 @@ var customer = {
                 console.log(error);
             }
         });
-    }  
+    }
 }
 
 var customerControl = {

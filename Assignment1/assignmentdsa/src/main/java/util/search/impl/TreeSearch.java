@@ -1,15 +1,10 @@
 package util.search.impl;
 
 import model.entities.Customer;
-import model.entities.Product;
-import model.iofile.ReadFile;
 
-import org.apache.commons.lang.ObjectUtils.Null;
 import org.apache.log4j.Logger;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
-import etc.Constants;
+import util.collection.LinkedLstDequeue;
 import util.search.Search;
 
 public abstract class TreeSearch<E> implements Search<E>{
@@ -149,4 +144,25 @@ public abstract class TreeSearch<E> implements Search<E>{
 	public E get(E e) {
 		return find(root, e).e;
 	}
+	
+	void preOrderSearch(LinkedLstDequeue<E> resultLst, Tree tree,E e) {
+	    if (tree == null) {	    	
+	        return;
+	    }	    
+	    if(constains(tree.e, e)){
+	    	resultLst.insertFirst(tree.e);
+	    }
+	    preOrderSearch(resultLst,tree.left,e);
+	    preOrderSearch(resultLst,tree.right,e);
+	}
+
+	/* (non-Javadoc)
+	 * @see util.search.Search#getlst(java.lang.Object)
+	 */
+	public LinkedLstDequeue<E> searchAll(E e) {
+		LinkedLstDequeue<E> resultLst = new LinkedLstDequeue<E>();
+		preOrderSearch(resultLst,root, e);		
+		return resultLst;
+	}
+	
 }

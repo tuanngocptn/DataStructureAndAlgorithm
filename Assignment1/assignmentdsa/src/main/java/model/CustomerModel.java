@@ -102,6 +102,10 @@ public class CustomerModel {
 			public int compare(Customer c1, Customer c2) {
 				return c1.getCcode().compareTo(c2.getCcode());
 			}
+
+			public boolean constains(Customer e1, Customer e2) {
+				return e1.getCcode().toLowerCase().contains(e2.getCcode().toLowerCase());
+			}
 		};
 		for(int i =0; i<jsonArray.length();i++){
 			Customer customer = new Customer();
