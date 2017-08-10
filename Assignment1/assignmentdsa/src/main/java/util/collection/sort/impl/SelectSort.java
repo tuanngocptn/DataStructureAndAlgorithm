@@ -11,7 +11,6 @@ public abstract class SelectSort<E> implements Sort {
                     swap(linkedLstDequeue, i, j);
                 }
             }
-
         }
         return linkedLstDequeue;
     }

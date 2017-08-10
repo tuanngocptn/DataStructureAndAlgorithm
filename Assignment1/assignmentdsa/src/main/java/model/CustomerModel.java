@@ -82,9 +82,9 @@ public class CustomerModel {
                     Customer customer = (Customer) o;
                     Customer customer1 = (Customer) o1;
                     if (isLowToHigh)
-                        return customer.getCcode().compareTo(customer1.getCcode()) > 0;
+                        return customer.getCcode().compareTo(customer1.getCcode()) >= 0;
                     else
-                        return customer.getCcode().compareTo(customer1.getCcode()) < 0;
+                        return customer.getCcode().compareTo(customer1.getCcode()) <= 0;
                 }
             };
         }

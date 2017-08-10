@@ -3,7 +3,9 @@ package control.servlet;
 import control.Init;
 import etc.Constants;
 import model.CustomerModel;
+import model.ProductModel;
 import model.iofile.ReadFile;
+
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.ServletException;
@@ -11,31 +13,27 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
 public class Customer extends HttpServlet {
-    private static final String ACTION = "action";
-    private static final String GET_ALL_ACTION = "getAll";
-    private static final String ADD_ACTION = "add";
-    private static final String DELETE_ACTION = "delete";
-    private static final String DEFAULT_RESULT = "[]";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PrintWriter print = response.getWriter();
-        String action = request.getParameter(ACTION);
         Init.setHeader(request, response);
+        PrintWriter print = response.getWriter();
+        String action = request.getParameter(Constants.ACTION);
         if (StringUtils.isBlank(action)) {
             Init.badRequest(response);
             return;
         }
 
-        if (action.equals(GET_ALL_ACTION)) {
+        if (action.equals(Constants.GET_ALL_ACTION)) {
             print.write(ReadFile.read(Constants.CUSTOMER_DATA_URL));
             return;
         }
 
-        if (action.equals(ADD_ACTION)) {
+        if (action.equals(Constants.ADD_ACTION)) {
             String ccode = request.getParameter(Constants.CUSTOMER_CCODE);
             String cusName = request.getParameter(Constants.CUSTOMER_CUSNAME);
             String phone = request.getParameter(Constants.CUSTOMER_PHONE);
@@ -55,7 +53,7 @@ public class Customer extends HttpServlet {
             return;
         }
 
-        if (action.equals(DELETE_ACTION)) {
+        if (action.equals(Constants.DELETE_ACTION)) {
             String ccode = request.getParameter(Constants.CUSTOMER_CCODE);
             if (StringUtils.isBlank(ccode)) {
                 Init.badRequest(response);
@@ -68,7 +66,21 @@ public class Customer extends HttpServlet {
             Init.forbidden(response);
             return;
         }
-        print.write(DEFAULT_RESULT);
+        
+        if (action.equals(Constants.SORT_ACTION)) {
+            String strLowToHigh = request.getParameter(Constants.IS_LOW_TO_HIGH);
+            if (StringUtils.isBlank(strLowToHigh) || !(strLowToHigh.equals("1") || strLowToHigh.equals("0"))) {
+                Init.badRequest(response);
+                return;
+            }
+            if (CustomerModel.sort(strLowToHigh.equals("1"))) {
+                print.write(ReadFile.read(Constants.CUSTOMER_DATA_URL));
+                return;
+            }
+            Init.forbidden(response);
+            return;
+        }
+        print.write(Constants.DEFAULT_RESULT);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

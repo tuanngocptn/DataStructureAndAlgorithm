@@ -132,10 +132,10 @@ public class LinkedLstDequeue<E> {
 
     public void insertAt(int location, E value) {
         if (location < 1) insertFirst(value);
-        else if (location > length() - 2) insertLast(value);
+        else if (location > length() - 1) insertLast(value);
         else {
             LinkedLst linkedLst = head;
-            for (int i = 0; i < location; i++) {
+            for (int i = 0; i < location - 1; i++) {
                 linkedLst = linkedLst.next;
             }
             LinkedLst linkedLstNew = new LinkedLst(value, linkedLst.next, linkedLst);

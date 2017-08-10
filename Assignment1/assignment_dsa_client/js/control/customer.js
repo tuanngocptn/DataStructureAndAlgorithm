@@ -1,9 +1,12 @@
 $(document).ready(function() {
-    $('#btnLoadAll').click(function() {
+    $('#btnLoadAllCus').click(function() {
         customer.getAll();
     });
     $('#addCustomer').click(function(){
     	customer.add();
+    });
+    $('#sortCustomer').click(function(){
+        customer.sort();
     });
 });
 
@@ -57,10 +60,32 @@ var customer = {
                 console.log(error);
             }
         });
-	}  
+	},
+    sort:function(){
+        if(customerControl.isLowToHigh === 1){
+            customerControl.isLowToHigh = 0;
+        }else{
+            customerControl.isLowToHigh = 1;
+        }
+        
+        var api = constants.host + constants.customer;
+        $.ajax({
+            type: 'POST',
+            url: api,
+            dataType: "JSON",
+            data: {action:"sort",isLowToHigh:customerControl.isLowToHigh},
+            success: function(data) {
+                customerControl.loadToTblMain(data);
+            },
+            error: function(request, status, error) {
+                console.log(error);
+            }
+        });
+    }  
 }
 
 var customerControl = {
+    isLowToHigh: 1,
 	loadToTblMain: function(data){
 		var action = "";
 		var tblMain = $("#tblMain");

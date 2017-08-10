@@ -82,4 +82,53 @@ public class LinkedLstStack<E> {
         peek();
         return "[]";
     }
+    
+    public int length(){
+    	int len = 0;
+    	LinkedLst linkedLst = head;
+    	while (linkedLst != null) {
+			len++;
+			linkedLst = linkedLst.next;
+		}
+    	return len;
+    }
+    
+    public E removeLast() {
+    	if(!isEmpty()) {
+    		LinkedLst linkedLst = head;
+	    	LinkedLst linkedLstRemove = linkedLst.next; 
+	    	while (linkedLstRemove.next != null) {
+				linkedLst = linkedLst.next;
+				linkedLstRemove = linkedLstRemove.next;
+			}
+	    	linkedLst.next = null;
+	    	tail = linkedLst;
+	    	return linkedLstRemove.e;
+        }
+        return null;
+	}
+    
+    public boolean delete(int serial){
+    	if(serial < 1){
+    	    if(pop() == null){
+    	    	return false;
+    	    }
+    	   	return true;
+    	}  	
+    	if (serial >= length() - 1) {
+    		if(removeLast() == null){
+    			return false;
+    		}
+			return true;
+		}
+    	LinkedLst linkedLst = head;
+    	LinkedLst linkedLstRemove = linkedLst.next;   
+    	for(int i = 0 ; i < serial - 1; i++){
+    		linkedLst = linkedLst.next;
+			linkedLstRemove = linkedLstRemove.next;
+    	}
+    	linkedLst.next = linkedLstRemove.next;
+    	return true;
+    	
+    }
 }
