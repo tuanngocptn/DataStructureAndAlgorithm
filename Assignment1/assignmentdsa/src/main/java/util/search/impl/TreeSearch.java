@@ -141,7 +141,11 @@ public abstract class TreeSearch<E> implements Search<E>{
 	}
 
 	public E get(E e) {
-		return find(root, e).e;
+		Tree tree = find(root, e);
+		if(tree == null){
+			return null;
+		}
+		return tree.e;
 	}
 	
 	void preOrderSearch(LinkedLstDequeue<E> resultLst, Tree tree,E e) {

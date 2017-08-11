@@ -1,5 +1,7 @@
+import model.OrderModel;
 import model.ProductModel;
 import model.entities.Customer;
+import model.entities.Order;
 import model.entities.Product;
 import util.search.impl.TreeSearch;
 
@@ -36,8 +38,14 @@ public class Main {
 //    	Product product = new Product();
 //    	product.setPcode("12342");
 //    	TreeSearch<Product> treeSearch = ProductModel.getTreeSearch();
-    	System.out.println(ProductModel.searchAll("12342").displayForward());
+//    	System.out.println(ProductModel.searchAll("12342").displayForward());
 //        System.out.println(ProductModel.searchAll("1234").displayForward());
+    	/*Order order = new Order();
+    	order.setCcode("1");
+    	order.setPcode("1");
+    	order.setQuantity(2);
+    	System.out.println(OrderModel.add(order));*/
+    	System.out.println(OrderModel.getAll().displayForward());
     	
     }
 

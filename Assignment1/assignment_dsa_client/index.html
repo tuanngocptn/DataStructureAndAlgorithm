@@ -6,17 +6,27 @@
 </head>
 
 <body>
-
-    <button id="btnLoadAllCus">load all Customer</button> 
-    <button id="addCustomer">Add Customer</button>    
-    <button id="sortCustomer">Sort Customer</button> 
-    <input type="text" name="cusSearch" id="cusSearch" value=""/> 
-
-    <button id="btnLoadAllPro">load all Product</button> 
-    <button id="addProduct">Add Product</button>   
-    <button id="sortProduct">Sort Product</button> 
-    <input type="text" name="proSearch" id="proSearch" value=""/>
-    <table id="tblMain" border="1" align="center"></table>
+    <table align="center">
+        <tr>
+            <td><button id="btnLoadAllOrder">load all Order</button> </td>
+            <td><button id="addOrder">Add Order</button></td>
+            <td><button id="sortOrder">Sort Order</button> </td>
+            <td><input type="text" name="orderSearch" id="orderSearch" value=""/> </td>
+        </tr>
+        <tr>
+            <td><button id="btnLoadAllCus">load all Customer</button></td>
+            <td><button id="addCustomer">Add Customer</button></td>
+            <td><button id="sortCustomer">Sort Customer</button></td>
+            <td><input type="text" name="cusSearch" id="cusSearch" value=""/></td>
+        </tr>
+        <tr>
+            <td><button id="btnLoadAllPro">load all Product</button></td>
+            <td><button id="addProduct">Add Product</button> </td>
+            <td><button id="sortProduct">Sort Product</button></td>
+            <td><input type="text" name="proSearch" id="proSearch" value=""/></td>
+        </tr>
+    </table>
+    <table id="tblMain" border="1" align="center"></table>    
 </body>
 
 </html>
@@ -24,5 +34,6 @@
 <script type="text/javascript" src="js/constants.js"></script>
 <script type="text/javascript" src="js/control/customer.js"></script>
 <script type="text/javascript" src="js/control/product.js"></script>
+<script type="text/javascript" src="js/control/order.js"></script>
 <script type="text/javascript">
 </script>

@@ -3,5 +3,6 @@ var constants = {
 	host : "http://localhost:8080/assignmentdsa",
 	// host : "http://localhost:8080",
 	product : "/Product",
-	customer : "/Customer"
+	customer : "/Customer",
+	order : "/Order"
 }
