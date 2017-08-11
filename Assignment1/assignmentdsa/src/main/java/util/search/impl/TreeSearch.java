@@ -64,7 +64,6 @@ public abstract class TreeSearch<E> implements Search<E>{
 	    if (tree == null) {
 	        return;
 	    }
-	    System.out.println(tree.e);
 	    preOrder(tree.left);
 	    preOrder(tree.right);
 	}

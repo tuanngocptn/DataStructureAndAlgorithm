@@ -54,8 +54,11 @@ public class LinkedLstStack<E> {
     }
 
     public E peek() {
-        current = head;
-        return current.e;
+    	if(!isEmpty()){
+	        current = head;
+	        return current.e;
+    	}
+    	return null;
     }
 
     public E get(){

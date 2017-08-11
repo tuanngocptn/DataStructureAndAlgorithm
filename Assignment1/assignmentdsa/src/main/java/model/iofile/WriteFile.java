@@ -5,9 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import etc.Constants;
 
 public class WriteFile {
+	private static final Logger logger = LoggerFactory.getLogger(WriteFile.class);
     public static boolean write(String url, String data){
         FileOutputStream fos = null;
         try {
@@ -17,16 +21,16 @@ public class WriteFile {
             dos.close();
             fos.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            logger.error("FileNotFoundException: ",e);
             return false;
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("IOException: ",e);
         } finally {
             if(fos != null) {
                 try {
                     fos.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.error("IOException: ",e);                    
                 }
             }
         }
