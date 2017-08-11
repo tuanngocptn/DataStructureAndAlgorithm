@@ -10,6 +10,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import util.collection.LinkedLstDequeue;
+import util.collection.sort.Sort;
+import util.collection.sort.impl.SelectSort;
 import etc.Constants;
 
 public class OrderModel {
@@ -51,4 +53,42 @@ public class OrderModel {
 		return false;
     }
 	
+	@SuppressWarnings("unchecked")
+	public static boolean sort(boolean isPCode,final boolean isLowToHigh){
+		LinkedLstDequeue<Order> orderLinkedLstDequeue = getAll();
+        Sort<Order> orderSort = null;
+        if(isPCode){
+	        if(Constants.TYPE_SORT.equals(Constants.SELECT_SORT)){
+	        	orderSort = new SelectSort<Order>(){
+					public boolean compare(Object o, Object o1) {
+						Order order = (Order) o;
+			        	Order order1 = (Order) o1;
+			            if (isLowToHigh)
+			                return order.getPcode().compareTo(order1.getPcode()) > 0;
+			            else
+			                return order.getPcode().compareTo(order1.getPcode()) < 0;
+					}
+	            };
+	        }
+        }else {
+        	if(Constants.TYPE_SORT.equals(Constants.SELECT_SORT)){
+	        	orderSort = new SelectSort<Order>(){
+					public boolean compare(Object o, Object o1) {
+						Order order = (Order) o;
+			        	Order order1 = (Order) o1;
+			            if (isLowToHigh)
+			                return order.getCcode().compareTo(order1.getCcode()) > 0;
+			            else
+			                return order.getCcode().compareTo(order1.getCcode()) < 0;
+					}
+	            };
+	        }
+		}
+        if (orderSort!=null) {
+        	orderLinkedLstDequeue = orderSort.sort(orderLinkedLstDequeue);            
+            saveAll(orderLinkedLstDequeue);
+            return true;
+        }
+        return false;
+	}
 }

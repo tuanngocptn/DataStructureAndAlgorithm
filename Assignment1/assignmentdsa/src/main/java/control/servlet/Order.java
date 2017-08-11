@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.CustomerModel;
 import model.OrderModel;
+import model.ProductModel;
 import model.iofile.ReadFile;
 
 import org.apache.commons.lang.StringUtils;
@@ -78,6 +79,22 @@ public class Order extends HttpServlet {
             order.setPcode(pcode);
             order.setQuantity(quantity);
             if (OrderModel.add(order)) {
+                print.write(ReadFile.read(Constants.ORDER_DATA_URL));
+                return;
+            }
+            Init.forbidden(response);
+            return;
+        }
+        
+        if (action.equals(Constants.SORT_ACTION)) {
+        	String type = request.getParameter(Constants.SEARCH_TYPE);
+        	String strLowToHigh = request.getParameter(Constants.IS_LOW_TO_HIGH);
+        	if (StringUtils.isBlank(strLowToHigh) || !(strLowToHigh.equals("1") || strLowToHigh.equals("0"))
+        			|| StringUtils.isBlank(type) || !(type.equals(Constants.ORDER_PRODUCT_CODE) || type.equals(Constants.ORDER_CUSTOMER_CODE))) {
+                Init.badRequest(response);
+                return;
+            }
+        	if (OrderModel.sort(type.equals(Constants.ORDER_PRODUCT_CODE),strLowToHigh.equals("1"))) {
                 print.write(ReadFile.read(Constants.ORDER_DATA_URL));
                 return;
             }

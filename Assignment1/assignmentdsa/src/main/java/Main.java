@@ -45,6 +45,7 @@ public class Main {
     	order.setPcode("1");
     	order.setQuantity(2);
     	System.out.println(OrderModel.add(order));*/
+    	OrderModel.sort(true, false);    	
     	System.out.println(OrderModel.getAll().displayForward());
     	
     }

@@ -2,6 +2,14 @@ $(document).ready(function() {
 	$('#btnLoadAllOrder').click(function() {
         order.getAll();
     })
+
+    $("#sortOrderByCCode").click(function(){
+        order.sort("ccode");
+    });   
+
+    $("#sortOrderByPCode").click(function(){
+        order.sort("pcode");
+    });
 })
 
 var order = {
@@ -38,11 +46,43 @@ var order = {
                 console.log(error);
             }
         });
-	}
+	},
+	sort:function(searchType){
+		var isLowToHigh = 0;
+		if(searchType == "pcode"){
+	        if(orderControl.isLowToHighPCode === 1){
+	            orderControl.isLowToHighPCode = 0;
+	        }else{
+	            orderControl.isLowToHighPCode = 1;
+	        } 
+	        isLowToHigh = orderControl.isLowToHighPCode;
+		}else{
+			if(orderControl.isLowToHighCCode === 1){
+	            orderControl.isLowToHighCCode = 0;
+	        }else{
+	            orderControl.isLowToHighCCode = 1;
+	        }
+	        isLowToHigh = orderControl.isLowToHighCCode;
+		}     
+        var api = constants.host + constants.order;
+        $.ajax({
+            type: 'POST',
+            url: api,
+            dataType: "JSON",
+            data: {action:"sort",type:searchType,isLowToHigh:isLowToHigh},
+            success: function(data) {
+                orderControl.loadToTblMain(data);
+            },
+            error: function(request, status, error) {
+                console.log(error);
+            }
+        });
+    },
 }
 
 var orderControl = {
-    isLowToHigh: 1,
+    isLowToHighCCode: 1,
+    isLowToHighPCode: 1,
 	loadToTblMain: function(data){
 		var action = "";
 		var tblMain = $("#tblMain");
