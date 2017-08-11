@@ -2,6 +2,7 @@ package model;
 
 import util.collection.LinkedLstDequeue;
 import model.entities.Customer;
+import model.entities.Product;
 import etc.Constants;
 import model.iofile.ReadFile;
 import model.iofile.WriteFile;
@@ -94,6 +95,13 @@ public class CustomerModel {
             return true;
         }
         return false;
+    }
+    
+    public static  LinkedLstDequeue<Customer> searchAll(String code){
+    	Customer customer = new Customer();
+    	customer.setCcode(code);
+    	TreeSearch<Customer> treeSearch = getTreeSearch();
+    	return treeSearch.searchAll(customer);
     }
     
     public static TreeSearch<Customer> getTreeSearch(){

@@ -149,7 +149,7 @@ public class ProductModel {
     public static LinkedLstDequeue<Product> searchAll(String code){
     	Product product = new Product();
     	product.setPcode(code);
-    	TreeSearch<Product> treeSearch = ProductModel.getTreeSearch();
+    	TreeSearch<Product> treeSearch = getTreeSearch();
     	return treeSearch.searchAll(product);
     }
     

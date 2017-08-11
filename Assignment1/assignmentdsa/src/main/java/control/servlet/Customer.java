@@ -80,6 +80,16 @@ public class Customer extends HttpServlet {
             Init.forbidden(response);
             return;
         }
+        
+        if (action.equals(Constants.SEARCH_ACTION)) {
+        	String code = request.getParameter(Constants.CUSTOMER_CCODE);
+            if (StringUtils.isBlank(code)) {
+                Init.badRequest(response);
+                return;
+            }
+            print.write(CustomerModel.searchAll(code).displayForward());
+            return;
+        }
         print.write(Constants.DEFAULT_RESULT);
     }
 

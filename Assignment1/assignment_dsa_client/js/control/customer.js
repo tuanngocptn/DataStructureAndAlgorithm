@@ -7,6 +7,10 @@ $(document).ready(function() {
     });
     $('#sortCustomer').click(function(){
         customer.sort();
+    });    
+    $("#cusSearch").on("keyup",function(){
+        console.log($("#cusSearch").val());
+        customer.search();
     });
 });
 
@@ -81,7 +85,23 @@ var customer = {
                 console.log(error);
             }
         });
-    }
+    },    
+    search:function(){        
+        var api = constants.host + constants.customer;
+        var cSearch = $("#cusSearch").val();
+        $.ajax({
+            type: 'POST',
+            url: api,
+            dataType: "JSON",
+            data: {action:"search",ccode:cSearch},
+            success: function(data) {
+                customerControl.loadToTblMain(data);
+            },
+            error: function(request, status, error) {
+                console.log(error);
+            }
+        });
+    } 
 }
 
 var customerControl = {

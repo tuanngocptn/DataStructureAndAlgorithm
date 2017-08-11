@@ -8,9 +8,9 @@ $(document).ready(function() {
     $('#sortProduct').click(function(){
     	product.sort();
     });
-    $("#cusSearch").on("keypress",function(){
-    	console.log($("#cusSearch").val());
-    	// product.search();
+    $("#proSearch").on("keyup",function(){
+    	// console.log($("#cusSearch").val());
+    	product.search();
     });
 });
 
@@ -89,7 +89,7 @@ var product = {
 	},	  
     search:function(){        
         var api = constants.host + constants.product;
-        var pSearch = $("#cusSearch").val();
+        var pSearch = $("#proSearch").val();
         $.ajax({
             type: 'POST',
             url: api,
