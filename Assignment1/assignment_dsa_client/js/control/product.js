@@ -1,6 +1,7 @@
 $(document).ready(function() {
-    $('#btnLoadAllPro').click(function() {
+    $('#btnLoadAllPro').click(function() {    	
         product.getAll();
+        script.productTabSwich();
     });
     $('#addProduct').click(function(){
     	product.add();
@@ -111,15 +112,15 @@ var productControl = {
 		var action = "";
 		var tblMain = $("#tblMain");
 		tblMain.empty();
-		tblMain.append("<thead><tr><th>Product Code</th><th>Product Name</th><th>Product Quantity</th><th>Product Saled</th><th>Product price</th><th></th></tr></thead><tbody>");
+		tblMain.append("<thead><tr><th class='text-center'><div onclick='product.sort()'>Product Code</div></th><th class='text-center'>Product Name</th><th class='text-center'>Product Quantity(es)</th><th class='text-center'>Product Saled</th><th class='text-center'>Product price</th><th class='text-center'></th></tr></thead><tbody>");
 		if(typeof tblMain !== 'undefined' && data.length > 0){
 			for (var i = 0 ; i < data.length; i++) {
 				action = 'product.delete("'+data[i].pcode+'")';
-				tblMain.append("<tr><td>"+ data[i].pcode +"</td><td>"+ data[i].proName +"</td><td>"+ data[i].quantity +"</td><td>"+ data[i].saled +"</td><td>"+ data[i].price +"</td><td onclick='"+ action +"'>Delete</td></tr>");
+				tblMain.append("<tr><td class='text-center'>"+ data[i].pcode +"</td><td class='text-center'>"+ data[i].proName +"</td><td class='text-center'>"+ data[i].quantity +"</td><td class='text-center'>"+ data[i].saled +"</td><td class='text-center'>"+ data[i].price +"</td><td class='text-center'><div class='btn btn-danger' onclick='"+ action +"'>Delete</div></td></tr>");
 			}
 		}
 		action = "product.add()"
-		tblMain.append('</tbody><tfoot><tr><td><input type="text" name="pcode" id="pcode" required></td><td><input type="text" name="proName" id="proName" required></td><td><input type="text" name="quantity" id="quantity" required></td><td><input type="text" name="saled" id="saled" required></td><td><input type="text" name="price" id="price" required></td><td onclick="'+ action +'">Add</td></tr></tfoot>');
+		tblMain.append('</tbody><tfoot><tr><td class="text-center"><input class="form-control" type="text" name="pcode" id="pcode" required></td><td class="text-center"><input class="form-control" type="text" name="proName" id="proName" required></td><td class="text-center"><input class="form-control" type="text" name="quantity" id="quantity" required></td><td class="text-center"><input class="form-control" type="text" name="saled" id="saled" required></td><td class="text-center"><input class="form-control" type="text" name="price" id="price" required></td><td class="text-center"><div class="btn btn-success" onclick="'+ action +'">Add</div></td></tr></tfoot>');
 		
 	}
 }

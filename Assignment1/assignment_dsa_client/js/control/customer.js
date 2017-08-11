@@ -1,6 +1,7 @@
 $(document).ready(function() {
     $('#btnLoadAllCus').click(function() {
         customer.getAll();
+        script.customerTabSwich();
     });
     $('#addCustomer').click(function(){
     	customer.add();
@@ -110,15 +111,15 @@ var customerControl = {
 		var action = "";
 		var tblMain = $("#tblMain");
 		tblMain.empty();
-		tblMain.append("<thead><tr><th>Customer Code</th><th>Customer Name</th><th>Customer Phone</th><th></th></tr></thead><tbody>");
+		tblMain.append("<thead><tr><th class='text-center'><div onclick='customer.sort()'>Customer Code<div></th><th class='text-center'>Customer Name</th><th class='text-center'>Customer Phone</th><th class='text-center'></th></tr></thead><tbody>");
 		if(typeof tblMain !== 'undefined' && data.length > 0){
 			for (var i = 0 ; i < data.length; i++) {
 				action = 'customer.delete("'+data[i].ccode+'")';
-				tblMain.append("<tr><td>"+ data[i].ccode +"</td><td>"+ data[i].cusName +"</td><td>"+ data[i].phone +"</td><td onclick='"+ action +"'>Delete</td></tr>");
+				tblMain.append("<tr><td class='text-center'>"+ data[i].ccode +"</td><td class='text-center'>"+ data[i].cusName +"</td><td class='text-center'>"+ data[i].phone +"</td><td class='text-center'1><div class='btn btn-danger' onclick='"+ action +"'>Delete</div></td></tr>");
 			}
 		}
 		action = "customer.add()"
-		tblMain.append('</tbody><tfoot><tr><td><input type="text" name="ccode" id="ccode" required></td><td><input type="text" name="cusName" id="cusName" required></td><td><input type="text" name="phone" id="phone" required></td><td onclick="'+ action +'">Add</td></tr></tfoot>');
+		tblMain.append('</tbody><tfoot><tr><td class="text-center"><input class="form-control" type="text" name="ccode" id="ccode" required></td><td class="text-center"><input class="form-control" type="text" name="cusName" id="cusName" required></td><td class="text-center"><input class="form-control" type="text" name="phone" id="phone" required></td><td class="text-center"><div class="btn btn-success" onclick="'+ action +'">Add</div></td></tr></tfoot>');
 		
 	}
 }

@@ -1,5 +1,16 @@
-#tblMain td 
-{
-    text-align:center; 
-    vertical-align:middle;
+.btn-danger,.btn-success{
+	width: 100%;
+}
+
+.btn-default,.btn-primary{
+	border-radius : 0 !important;
+}
+
+.btn-primary{
+	color: black ;
+	background-color: #C5EFF7 !important;
+}
+
+.panel-default{
+	border-top-left-radius: 0 !important;
 }

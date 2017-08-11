@@ -1,6 +1,7 @@
 $(document).ready(function() {
-	$('#btnLoadAllOrder').click(function() {
+	$('#btnLoadAllOrder').click(function() {		
         order.getAll();
+        script.orderTabSwich();
     })
 
     $("#sortOrderByCCode").click(function(){
@@ -87,14 +88,16 @@ var orderControl = {
 		var action = "";
 		var tblMain = $("#tblMain");
 		tblMain.empty();
-		tblMain.append("<thead><tr><th>Customer Code</th><th>Product Code</th><th>Quantity(es)</th><th></th></tr></thead><tbody>");
+		var ccodeSearch = 'order.sort("ccode")'
+		var pcodeSearch = 'order.sort("pcode")'
+		tblMain.append("<thead><tr><th onclick='"+ ccodeSearch +"' class='text-center'>Customer Code</th><th onclick='"+ pcodeSearch +"' class='text-center'>Product Code</th><th class='text-center'>Quantity(es)</th><th class='text-center'></th></tr></thead><tbody>");
 		if(typeof tblMain !== 'undefined' && data.length > 0){
 			for (var i = 0 ; i < data.length; i++) {
-				tblMain.append("<tr><td>"+ data[i].ccode +"</td><td>"+ data[i].pcode +"</td><td>"+ data[i].quantity +"</td><td></td></tr>");
+				tblMain.append("<tr><td class='text-center'>"+ data[i].ccode +"</td><td class='text-center'>"+ data[i].pcode +"</td><td class='text-center'>"+ data[i].quantity +"</td><td class='text-center'></td></tr>");
 			}
 		}
 		action = "order.add()"
-		tblMain.append('</tbody><tfoot><tr><td><input type="text" name="ccode" id="ccode" required></td><td><input type="text" name="pcode" id="pcode" required></td><td><input type="text" name="quantity" id="quantity" required></td><td onclick="'+ action +'">Add</td></tr></tfoot>');
+		tblMain.append('</tbody><tfoot><tr><td class="text-center"><input class="form-control" type="text" name="ccode" id="ccode" required></td><td class="text-center"><input class="form-control" type="text" name="pcode" id="pcode" required></td><td class="text-center"><input class="form-control" type="text" name="quantity" id="quantity" required></td><td><div class="btn btn-success text-center" onclick="'+ action +'">Add</div></td></tr></tfoot>');
 		
 	}
 }

@@ -3,40 +3,51 @@
 <head>
     <title>index</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 </head>
 
 <body>
     <table align="center">
         <tr>
             <td><input type="text" name="orderSearch" id="orderSearch" value=""/> </td>
-            <td><button id="btnLoadAllOrder">load all Order</button> </td>
+            <!-- <td><button id="btnLoadAllOrder">load all Order</button> </td> -->
             <td><button id="addOrder">Add Order</button></td>
             <td><button id="sortOrderByCCode">Sort by ccode</button></td>
             <td><button id="sortOrderByPCode">Sort by pcode</button></td>
         </tr>
         <tr>
             <td><input type="text" name="cusSearch" id="cusSearch" value=""/></td>
-            <td><button id="btnLoadAllCus">load all Customer</button></td>
+            <!-- <td><button id="btnLoadAllCus">load all Customer</button></td> -->
             <td><button id="addCustomer">Add Customer</button></td>
-            <td><button id="sortCustomer">Sort Customer</button></td>
+            <td><button id='sortCustomer'>Sort Customer</button></td>
             <td></td>
         </tr>
         <tr>        
             <td><input type="text" name="proSearch" id="proSearch" value=""/></td>
-            <td><button id="btnLoadAllPro">load all Product</button></td>
+            <!-- <td><button id="btnLoadAllPro">load all Product</button></td> -->
             <td><button id="addProduct">Add Product</button></td>
             <td><button id="sortProduct">Sort Product</button></td>
             <td></td>
         </tr>
     </table>
-    <table id="tblMain" border="1" align="center"></table>    
+    <br>
+    <div class="container">
+        <div>
+        <button class="btn btn-default" id="btnLoadAllOrder"><b>Order(s)</b></button>
+        <button class="btn btn-default" id="btnLoadAllCus"><b>Customer(s)</b></button>
+        <button class="btn btn-default" id="btnLoadAllPro"><b>Product(s)</b></button></div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table id="tblMain" class="table"></table> 
+            </div>   
+        </div>   
+    </div>   
 </body>
 
 </html>
 <script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
 <script type="text/javascript" src="js/constants.js"></script>
 <script type="text/javascript" src="js/control/customer.js"></script>
 <script type="text/javascript" src="js/control/product.js"></script>
 <script type="text/javascript" src="js/control/order.js"></script>
-<script type="text/javascript">
-</script>
