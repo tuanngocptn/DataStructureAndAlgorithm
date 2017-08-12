@@ -1,7 +1,7 @@
 # DataStructureAndAlgorithm
 This is my Repository, that is Assignment in "data structure and algorithm" at FPT Greenwich
-+
-Install, config and run:
+
+***Install, config and run:
 
 - edit "ROOT_PATH" in "DataStructureAndAlgorithm/assignmentdsa/src/main/java/etc/Constants.java" with root to assignmentdsa project.
 
