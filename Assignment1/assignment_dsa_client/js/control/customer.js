@@ -1,7 +1,6 @@
 $(document).ready(function() {
     $('#btnLoadAllCus').click(function() {
-        customer.getAll();
-        script.customerTabSwich();
+        customer.init();
     });
     $('#addCustomer').click(function(){
     	customer.add();
@@ -10,13 +9,19 @@ $(document).ready(function() {
         customer.sort();
     });    
     $("#cusSearch").on("keyup",function(){
-        console.log($("#cusSearch").val());
         customer.search();
     });
 });
 
 var customer = {
 	name:"customer",
+    init:function(){
+        customer.getAll();
+        script.customerTabSwich();
+        $("#proSearch").hide();   
+        $("#cusSearch").show();           
+        $("#tbl-search").empty();
+    },
 	getAll:function(){
 		var api = constants.host + constants.customer;
 		$.ajax({
@@ -47,7 +52,16 @@ var customer = {
                 customerControl.loadToTblMain(data);
             },
             error: function(request, status, error) {
-                console.log(error);
+                if(request.status == 403){                    
+                    $("#id-modal-title").text("Add Error");
+                    $("#id-modal-content").text("Customer code has existed.");
+                    $('#myModal').modal('show');
+                }
+                if(request.status == 400){                    
+                    $("#id-modal-title").text("Warning");
+                    $("#id-modal-content").text("Please fill all the information.");
+                    $('#myModal').modal('show');
+                }
             }
         });
 	},
@@ -98,8 +112,10 @@ var customer = {
             success: function(data) {
                 customerControl.loadToTblMain(data);
             },
-            error: function(request, status, error) {
-                console.log(error);
+            error: function(request, status, error) {                
+                if(request.status == 400){                    
+                    customer.init();
+                }
             }
         });
     } 
@@ -111,7 +127,7 @@ var customerControl = {
 		var action = "";
 		var tblMain = $("#tblMain");
 		tblMain.empty();
-		tblMain.append("<thead><tr><th class='text-center'><div onclick='customer.sort()'>Customer Code<div></th><th class='text-center'>Customer Name</th><th class='text-center'>Customer Phone</th><th class='text-center'></th></tr></thead><tbody>");
+		tblMain.append("<thead><tr><th class='text-center'><div onclick='customer.sort()'>Customer Code <span class='glyphicon glyphicon-sort' aria-hidden='true'/><div></th><th class='text-center'>Customer Name</th><th class='text-center'>Customer Phone</th><th class='text-center'></th></tr></thead><tbody>");
 		if(typeof tblMain !== 'undefined' && data.length > 0){
 			for (var i = 0 ; i < data.length; i++) {
 				action = 'customer.delete("'+data[i].ccode+'")';
@@ -119,7 +135,7 @@ var customerControl = {
 			}
 		}
 		action = "customer.add()"
-		tblMain.append('</tbody><tfoot><tr><td class="text-center"><input class="form-control" type="text" name="ccode" id="ccode" required></td><td class="text-center"><input class="form-control" type="text" name="cusName" id="cusName" required></td><td class="text-center"><input class="form-control" type="text" name="phone" id="phone" required></td><td class="text-center"><div class="btn btn-success" onclick="'+ action +'">Add</div></td></tr></tfoot>');
+		tblMain.append('</tbody><tfoot><tr><td class="text-center"><input class="form-control" type="text" name="ccode" id="ccode" placeholder="Code"></td><td class="text-center"><input class="form-control" type="text" name="cusName" id="cusName" placeholder="Name"></td><td class="text-center"><input class="form-control" type="text" name="phone" id="phone" placeholder="Phone"></td><td class="text-center"><div class="btn btn-success" onclick="'+ action +'">Add</div></td></tr></tfoot>');
 		
 	}
 }

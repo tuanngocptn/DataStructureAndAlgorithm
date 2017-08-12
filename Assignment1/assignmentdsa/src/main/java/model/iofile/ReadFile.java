@@ -6,13 +6,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import etc.Constants;
 
 public class ReadFile {
-	private static final Logger logger = LoggerFactory.getLogger(ReadFile.class);
+	private static final Logger logger = Logger.getLogger(ReadFile.class);
     public static String read(String url){
         FileInputStream fileInputStream = null;
         String result = "";

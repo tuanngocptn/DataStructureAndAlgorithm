@@ -1,16 +1,44 @@
+html, body {
+    height: 100%;
+}
+
+.content{
+	background-color: #ECECEC;
+	min-height: 100%;
+}
+
 .btn-danger,.btn-success{
 	width: 100%;
 }
 
 .btn-default,.btn-primary{
-	border-radius : 0 !important;
+	border-bottom-left-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
+	border-bottom: 0 !important;
+	width: 15%;
 }
 
-.btn-primary{
-	color: black ;
-	background-color: #C5EFF7 !important;
+.btn-default,.btn-primary:focus {
+	outline:none !important;
+	background-color:#FFFFFF !important;
+}
+.panel-default{
+	border-top-left-radius: 0 !important;
+}
+
+#mask {
+        position: absolute;
+        top:-1px;
+        left:1px;
+        width:45.5%;
+        height: 1px;
+        background-color:#fff;
 }
 
 .panel-default{
-	border-top-left-radius: 0 !important;
+    position:relative;
+}
+
+.float-right{
+	float: right;
 }

@@ -8,15 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.CustomerModel;
 import model.OrderModel;
-import model.ProductModel;
 import model.iofile.ReadFile;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import control.Init;
 import etc.Constants;
@@ -26,7 +23,7 @@ import etc.Constants;
  */
 public class Order extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    Logger logger = LoggerFactory.getLogger(Order.class);
+    Logger logger = Logger.getLogger(Order.class);
     /**
      * @see HttpServlet#HttpServlet()
      */

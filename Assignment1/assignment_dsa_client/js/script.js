@@ -1,3 +1,7 @@
+$(document).ready(function() {
+	order.init();
+});
+
 var script = {
 	orderTab: false,
 	customerTab: false,
@@ -22,19 +26,19 @@ var script = {
 	},
 	tabSwich:function(){
 		if (script.orderTab){
-			$("#btnLoadAllOrder").removeClass("btn-default").addClass("btn-primary");
-		}else{
 			$("#btnLoadAllOrder").removeClass("btn-primary").addClass("btn-default");
+		}else{
+			$("#btnLoadAllOrder").removeClass("btn-default").addClass("btn-primary");
 		};
 		if (script.customerTab){
-			$("#btnLoadAllCus").removeClass("btn-default").addClass("btn-primary");
-		}else{
 			$("#btnLoadAllCus").removeClass("btn-primary").addClass("btn-default");
+		}else{
+			$("#btnLoadAllCus").removeClass("btn-default").addClass("btn-primary");
 		};
 		if (script.productTab){
-			$("#btnLoadAllPro").removeClass("btn-default").addClass("btn-primary");
-		}else{
 			$("#btnLoadAllPro").removeClass("btn-primary").addClass("btn-default");
+		}else{
+			$("#btnLoadAllPro").removeClass("btn-default").addClass("btn-primary");
 		}
 	}
 }

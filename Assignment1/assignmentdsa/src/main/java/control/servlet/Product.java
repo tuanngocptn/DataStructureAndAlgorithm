@@ -12,8 +12,7 @@ import model.iofile.ReadFile;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import control.Init;
 import etc.Constants;
@@ -22,7 +21,7 @@ import etc.Constants;
  */
 public class Product extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = LoggerFactory.getLogger(Product.class);
+	private static final Logger logger = Logger.getLogger(Product.class);
     /**
      * @see HttpServlet#HttpServlet()
      */

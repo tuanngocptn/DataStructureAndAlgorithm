@@ -5,13 +5,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import etc.Constants;
 
 public class WriteFile {
-	private static final Logger logger = LoggerFactory.getLogger(WriteFile.class);
+	private static final Logger logger = Logger.getLogger(WriteFile.class);
     public static boolean write(String url, String data){
         FileOutputStream fos = null;
         try {

@@ -1,7 +1,6 @@
 $(document).ready(function() {
     $('#btnLoadAllPro').click(function() {    	
-        product.getAll();
-        script.productTabSwich();
+        product.init();
     });
     $('#addProduct').click(function(){
     	product.add();
@@ -17,6 +16,13 @@ $(document).ready(function() {
 
 var product = {
 	name : "product",
+    init:function(){
+        product.getAll();
+        script.productTabSwich(); 
+        $("#cusSearch").hide();   
+        $("#proSearch").show();            
+        $("#tbl-search").empty();
+    },
 	getAll:function(){
 		var api = constants.host + constants.product;
 		$.ajax({
@@ -48,7 +54,16 @@ var product = {
                 productControl.loadToTblMain(data);
             },
             error: function(request, status, error) {
-                console.log(error);
+                if(request.status == 403){                    
+                    $("#id-modal-title").text("Add Error");
+                    $("#id-modal-content").text("Product code has existed.")
+                    $('#myModal').modal('show');
+                }
+                if(request.status == 400){                    
+                    $("#id-modal-title").text("Warning");
+                    $("#id-modal-content").text("Please fill all the information.");
+                    $('#myModal').modal('show');
+                }
             }
         });
 	},
@@ -99,8 +114,10 @@ var product = {
             success: function(data) {
                 productControl.loadToTblMain(data);
             },
-            error: function(request, status, error) {
-                console.log(error);
+            error: function(request, status, error) {                
+                if(request.status == 400){                    
+                    product.init();
+                }
             }
         });
     } 
@@ -112,7 +129,7 @@ var productControl = {
 		var action = "";
 		var tblMain = $("#tblMain");
 		tblMain.empty();
-		tblMain.append("<thead><tr><th class='text-center'><div onclick='product.sort()'>Product Code</div></th><th class='text-center'>Product Name</th><th class='text-center'>Product Quantity(es)</th><th class='text-center'>Product Saled</th><th class='text-center'>Product price</th><th class='text-center'></th></tr></thead><tbody>");
+		tblMain.append("<thead><tr><th class='text-center'><div onclick='product.sort()'>Product Code <span class='glyphicon glyphicon-sort' aria-hidden='true'/></div></th><th class='text-center'>Product Name</th><th class='text-center'>Product Quantity(es)</th><th class='text-center'>Product Saled</th><th class='text-center'>Product price</th><th class='text-center'></th></tr></thead><tbody>");
 		if(typeof tblMain !== 'undefined' && data.length > 0){
 			for (var i = 0 ; i < data.length; i++) {
 				action = 'product.delete("'+data[i].pcode+'")';
@@ -120,7 +137,7 @@ var productControl = {
 			}
 		}
 		action = "product.add()"
-		tblMain.append('</tbody><tfoot><tr><td class="text-center"><input class="form-control" type="text" name="pcode" id="pcode" required></td><td class="text-center"><input class="form-control" type="text" name="proName" id="proName" required></td><td class="text-center"><input class="form-control" type="text" name="quantity" id="quantity" required></td><td class="text-center"><input class="form-control" type="text" name="saled" id="saled" required></td><td class="text-center"><input class="form-control" type="text" name="price" id="price" required></td><td class="text-center"><div class="btn btn-success" onclick="'+ action +'">Add</div></td></tr></tfoot>');
+		tblMain.append('</tbody><tfoot><tr><td class="text-center"><input class="form-control" type="text" name="pcode" id="pcode" placeholder="Code"></td><td class="text-center"><input class="form-control" type="text" name="proName" id="proName" placeholder="Name"></td><td class="text-center"><input class="form-control" type="text" name="quantity" id="quantity" placeholder="Quantity"></td><td class="text-center"><input class="form-control" type="text" name="saled" id="saled" placeholder="Saled"></td><td class="text-center"><input class="form-control" type="text" name="price" id="price" placeholder="Price"></td><td class="text-center"><div class="btn btn-success" onclick="'+ action +'">Add</div></td></tr></tfoot>');
 		
 	}
 }

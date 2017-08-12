@@ -3,8 +3,8 @@ package etc;
 public class Constants {
 	
 	//URL host to file
-	public static String ROOT_PATH = "/home/local/SUTRIXMEDIA1/ngoc.pt/Documents/green/code/DataStructureAndAlgorithm/Assignment1/assignmentdsa/";
-//	public static final String ROOT_PATH = "/home/panda/Documents/hoctap/dsa/code/DataStructureAndAlgorithm/Assignment1/assignmentdsa/";
+//	public static String ROOT_PATH = "/home/local/SUTRIXMEDIA1/ngoc.pt/Documents/green/code/DataStructureAndAlgorithm/Assignment1/assignmentdsa/";
+	public static final String ROOT_PATH = "/home/panda/Documents/hoctap/dsa/code/DataStructureAndAlgorithm/Assignment1/assignmentdsa/";
 
 	//URI to file
     public static final String CUSTOMER_DATA_URL = "src/main/java/etc/data/customer_list.txt";
