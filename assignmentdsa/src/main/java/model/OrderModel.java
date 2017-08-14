@@ -1,5 +1,6 @@
 package model;
 
+import com.google.gson.Gson;
 import model.entities.Customer;
 import model.entities.Order;
 import model.entities.Product;
@@ -15,6 +16,7 @@ import util.collection.sort.impl.SelectSort;
 import etc.Constants;
 
 public class OrderModel {
+	private static final String FORMAT_SEARCH_TEXT = "{\"customer\":%s,\"product\":%s}";
 	public OrderModel(){
 		
 	}
@@ -90,5 +92,20 @@ public class OrderModel {
             return true;
         }
         return false;
+	}
+
+	public static String get(String ccode, String pcode){
+		Gson gson = new Gson();
+		String result = Constants.DEFAULT_RESULT;
+		Product product = new Product();
+		Customer customer = new Customer();
+		product.setPcode(pcode);
+		customer.setCcode(ccode);
+		product = ProductModel.get(product);
+		customer = CustomerModel.get(customer);
+		if(product != null && customer != null) {
+			result = String.format(FORMAT_SEARCH_TEXT, gson.toJson(customer), gson.toJson(product));
+		}
+		return result;
 	}
 }

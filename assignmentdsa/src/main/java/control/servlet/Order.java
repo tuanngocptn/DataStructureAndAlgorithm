@@ -84,6 +84,17 @@ public class Order extends HttpServlet {
             Init.forbidden(response);
             return;
         }
+        if (action.equals(Constants.FIND_ORDER_ACTION)) {
+            String ccode = request.getParameter(Constants.ORDER_CUSTOMER_CODE);
+            String pcode = request.getParameter(Constants.ORDER_PRODUCT_CODE);
+            if (StringUtils.isBlank(ccode) || StringUtils.isBlank(pcode)) {
+                Init.badRequest(response);
+                return;
+            }
+            print.write(OrderModel.get(ccode,pcode));
+            return;
+        }
+
         print.write(Constants.DEFAULT_RESULT);
 	}
 

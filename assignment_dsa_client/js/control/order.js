@@ -95,6 +95,21 @@ var order = {
             }
         });
     },
+    searchOrder:function(ccodeParam,pcodeParam){
+        var api = constants.host + constants.order;
+        $.ajax({
+            type: 'POST',
+            url: api,
+            dataType: "JSON",
+            data: { action: "search", ccode: ccodeParam, pcode: pcodeParam},
+            success: function(data) {
+                orderControl.loadModalSearchResult(data);
+            },
+            error: function(request, status, error) {
+                console.log(error);
+            }
+        });
+    },
     searchCustomer: function() {
         var api = constants.host + constants.customer;
         var cSearch = $("#ccode").val();
@@ -132,8 +147,7 @@ var order = {
             }
         });
     },
-    editPcode:function(pcode){        
-        console.log(ccode);
+    editPcode:function(pcode){  
         $("#tbl-search").empty();
         $("#pcode").val(pcode);
     }
@@ -151,7 +165,8 @@ var orderControl = {
         tblMain.append("<thead><tr><th onclick='" + ccodeSearch + "' class='text-center'>Customer Code <span class='glyphicon glyphicon-sort' aria-hidden='true'/></span></th><th onclick='" + pcodeSearch + "' class='text-center'>Product Code <span class='glyphicon glyphicon-sort' aria-hidden='true'/></span></th><th class='text-center'>Quantity(es)</th><th class='text-center'></th></tr></thead><tbody>");
         if (typeof tblMain !== 'undefined' && data.length > 0) {
             for (var i = 0; i < data.length; i++) {
-                tblMain.append("<tr><td class='text-center'>" + data[i].ccode + "</td><td class='text-center'>" + data[i].pcode + "</td><td class='text-center'>" + data[i].quantity + "</td><td class='text-center'></td></tr>");
+                action = 'order.searchOrder("'+ data[i].ccode +'","'+ data[i].pcode +'")';
+                tblMain.append("<tr onclick='"+ action +"'><td class='text-center'>" + data[i].ccode + "</td><td class='text-center'>" + data[i].pcode + "</td><td class='text-center'>" + data[i].quantity + "</td><td class='text-center'></td></tr>");
             }
         }
         action = "order.add()"
@@ -185,5 +200,14 @@ var orderControl = {
             }
             tblSearch.append('</tbody>');
         }
+    },
+    loadModalSearchResult: function(data){
+        console.log(data);
+        $("#id-modal-title").text("Order Detail");
+        var result = '<p class="col-md-12">Information Customer and Product:</p><div class="col-md-5"><ul><li>Code: '+ data.customer.ccode +'</li><li>Name: '+ data.customer.cusName +'</li><li>Phone: '+ data.customer.phone +'</li></ul></div><div class="col-md-7"><ul><li>Code: '+ data.product.pcode +'</li><li>Name: '+ data.product.proName +'</li><li>Quantity: '+ data.product.quantity +'</li><li>Saled: '+ data.product.saled +'</li><li>Price: '+ data.product.price +'</li></ul></div><br><br><br><br><br><br>';
+        $("#id-modal-content").html(result);
+        $('#myModal').modal('show');
     }
 }
+
+

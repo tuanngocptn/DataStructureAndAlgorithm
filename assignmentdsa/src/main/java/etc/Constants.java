@@ -59,7 +59,9 @@ public class Constants {
 
     public static final String SEARCH_ACTION = "search";  
 
-    public static final String SEARCH_TYPE = "type";     
+    public static final String SEARCH_TYPE = "type";
+
+    public static final String FIND_ORDER_ACTION = "search";
     
     //Defauld result of servlet
     public static final String DEFAULT_RESULT = "[]";
