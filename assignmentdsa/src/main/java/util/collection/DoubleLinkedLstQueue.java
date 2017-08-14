@@ -2,7 +2,7 @@ package util.collection;
 
 import com.google.gson.Gson;
 
-public class LinkedLstDequeue<E> {
+public class DoubleLinkedLstQueue<E> {
 
     private LinkedLst head = null;
     private LinkedLst tail = null;

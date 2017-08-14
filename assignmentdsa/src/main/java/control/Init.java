@@ -30,6 +30,7 @@ public class Init {
         response.setHeader("Access-Control-Allow-Headers", "Content-Type");
         response.setHeader("Access-Control-Max-Age", "86400");
         response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
     }
 
     /**

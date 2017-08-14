@@ -9,7 +9,7 @@ import model.iofile.WriteFile;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import util.collection.LinkedLstDequeue;
+import util.collection.DoubleLinkedLstQueue;
 import util.collection.sort.Sort;
 import util.collection.sort.impl.SelectSort;
 import etc.Constants;
@@ -19,8 +19,8 @@ public class OrderModel {
 		
 	}
 	
-	public static LinkedLstDequeue<Order> getAll(){
-        LinkedLstDequeue<Order> orderLinkedLstDequeue = new LinkedLstDequeue<Order>();
+	public static DoubleLinkedLstQueue<Order> getAll(){
+        DoubleLinkedLstQueue<Order> orderDoubleLinkedLstQueue = new DoubleLinkedLstQueue<Order>();
         String strCustomerJson = ReadFile.read(Constants.ORDER_DATA_URL);
         JSONArray jsonArray = new JSONArray(strCustomerJson);
         for (Object object: jsonArray) {
@@ -29,17 +29,17 @@ public class OrderModel {
             order.setCcode(jsonObject.getString(Constants.ORDER_CUSTOMER_CODE));
             order.setPcode(jsonObject.getString(Constants.ORDER_PRODUCT_CODE));
             order.setQuantity(jsonObject.getInt(Constants.ORDER_QUANTITY));
-            orderLinkedLstDequeue.insertLast(order);
+            orderDoubleLinkedLstQueue.insertLast(order);
         }
-        return orderLinkedLstDequeue;
+        return orderDoubleLinkedLstQueue;
     }
 	
-	public static boolean saveAll( LinkedLstDequeue<Order> orderLinkedLstDequeue){
-        return WriteFile.write(Constants.ORDER_DATA_URL,orderLinkedLstDequeue.displayForward());
+	public static boolean saveAll( DoubleLinkedLstQueue<Order> orderDoubleLinkedLstQueue){
+        return WriteFile.write(Constants.ORDER_DATA_URL, orderDoubleLinkedLstQueue.displayForward());
     }
 	
 	public static boolean add(Order order){
-		LinkedLstDequeue<Order> linkedLstDequeue = getAll();
+		DoubleLinkedLstQueue<Order> doubleLinkedLstQueue = getAll();
 		Product product = new Product();
 		product.setPcode(order.getPcode());
 		Customer customer = new Customer();
@@ -47,15 +47,15 @@ public class OrderModel {
 		product = ProductModel.get(product);
 		customer = CustomerModel.get(customer);
 		if(customer != null && product != null){			
-		    linkedLstDequeue.insertLast(order);
-		    return saveAll(linkedLstDequeue);
+		    doubleLinkedLstQueue.insertLast(order);
+		    return saveAll(doubleLinkedLstQueue);
 		}
 		return false;
     }
 	
 	@SuppressWarnings("unchecked")
 	public static boolean sort(boolean isPCode,final boolean isLowToHigh){
-		LinkedLstDequeue<Order> orderLinkedLstDequeue = getAll();
+		DoubleLinkedLstQueue<Order> orderDoubleLinkedLstQueue = getAll();
         Sort<Order> orderSort = null;
         if(isPCode){
 	        if(Constants.TYPE_SORT.equals(Constants.SELECT_SORT)){
@@ -85,8 +85,8 @@ public class OrderModel {
 	        }
 		}
         if (orderSort!=null) {
-        	orderLinkedLstDequeue = orderSort.sort(orderLinkedLstDequeue);            
-            saveAll(orderLinkedLstDequeue);
+        	orderDoubleLinkedLstQueue = orderSort.sort(orderDoubleLinkedLstQueue);
+            saveAll(orderDoubleLinkedLstQueue);
             return true;
         }
         return false;

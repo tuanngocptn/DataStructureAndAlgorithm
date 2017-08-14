@@ -2,7 +2,7 @@ package util.search.impl;
 
 import org.apache.log4j.Logger;
 
-import util.collection.LinkedLstDequeue;
+import util.collection.DoubleLinkedLstQueue;
 import util.search.Search;
 
 /**
@@ -107,7 +107,7 @@ public abstract class TreeSearch<E> implements Search<E>{
 	 * @param tree tree search
 	 * @param e object input
 	 */
-	void preOrderSearch(LinkedLstDequeue<E> resultLst, Tree tree,E e) {
+	void preOrderSearch(DoubleLinkedLstQueue<E> resultLst, Tree tree, E e) {
 	    if (tree == null) {	    	
 	        return;
 	    }	    
@@ -123,8 +123,8 @@ public abstract class TreeSearch<E> implements Search<E>{
 	 * @param e param with information would like to find
 	 * @return list object equal
 	 */
-	public LinkedLstDequeue<E> searchAll(E e) {
-		LinkedLstDequeue<E> resultLst = new LinkedLstDequeue<E>();
+	public DoubleLinkedLstQueue<E> searchAll(E e) {
+		DoubleLinkedLstQueue<E> resultLst = new DoubleLinkedLstQueue<E>();
 		preOrderSearch(resultLst,root, e);		
 		return resultLst;
 	}

@@ -1,8 +1,7 @@
 package model;
 
-import util.collection.LinkedLstDequeue;
+import util.collection.DoubleLinkedLstQueue;
 import model.entities.Customer;
-import model.entities.Product;
 import etc.Constants;
 import model.iofile.ReadFile;
 import model.iofile.WriteFile;
@@ -20,8 +19,8 @@ public class CustomerModel {
 
     }
 
-    public static LinkedLstDequeue<Customer> getAll(){
-        LinkedLstDequeue<Customer> customerLinkedLstDequeue = new LinkedLstDequeue<Customer>();
+    public static DoubleLinkedLstQueue<Customer> getAll(){
+        DoubleLinkedLstQueue<Customer> customerDoubleLinkedLstQueue = new DoubleLinkedLstQueue<Customer>();
         String strCustomerJson = ReadFile.read(Constants.CUSTOMER_DATA_URL);
         JSONArray jsonArray = new JSONArray(strCustomerJson);
         for (Object object: jsonArray) {
@@ -30,42 +29,42 @@ public class CustomerModel {
             customer.setCcode(jsonObject.getString(Constants.CUSTOMER_CCODE));
             customer.setCusName(jsonObject.getString(Constants.CUSTOMER_CUSNAME));
             customer.setPhone(jsonObject.getString(Constants.CUSTOMER_PHONE));
-            customerLinkedLstDequeue.insertLast(customer);
+            customerDoubleLinkedLstQueue.insertLast(customer);
         }
-        return customerLinkedLstDequeue;
+        return customerDoubleLinkedLstQueue;
     }
 
-    public static boolean saveAll( LinkedLstDequeue<Customer> customerLinkedLstDequeue){
-        return WriteFile.write(Constants.CUSTOMER_DATA_URL,customerLinkedLstDequeue.displayForward());
+    public static boolean saveAll( DoubleLinkedLstQueue<Customer> customerDoubleLinkedLstQueue){
+        return WriteFile.write(Constants.CUSTOMER_DATA_URL, customerDoubleLinkedLstQueue.displayForward());
     }
 
     public static boolean add(Customer customer){
-        LinkedLstDequeue<Customer> linkedLstDequeue = getAll();
-        for(int i = 0; i<linkedLstDequeue.length();i++){
-        	if(linkedLstDequeue.getAt(i).getCcode().equals(customer.getCcode())){
+        DoubleLinkedLstQueue<Customer> doubleLinkedLstQueue = getAll();
+        for(int i = 0; i< doubleLinkedLstQueue.length(); i++){
+        	if(doubleLinkedLstQueue.getAt(i).getCcode().equals(customer.getCcode())){
         		return false;
         	}
         }
-        linkedLstDequeue.insertLast(customer);
-        return saveAll(linkedLstDequeue);
+        doubleLinkedLstQueue.insertLast(customer);
+        return saveAll(doubleLinkedLstQueue);
     }
 
     public static Customer findByCode(String code){
-        LinkedLstDequeue<Customer> linkedLstDequeue = getAll();
-        for (int i = 0; i < linkedLstDequeue.length(); i++) {
-            if (linkedLstDequeue.getAt(i).getCcode().equals(code)){
-                return linkedLstDequeue.getAt(i);
+        DoubleLinkedLstQueue<Customer> doubleLinkedLstQueue = getAll();
+        for (int i = 0; i < doubleLinkedLstQueue.length(); i++) {
+            if (doubleLinkedLstQueue.getAt(i).getCcode().equals(code)){
+                return doubleLinkedLstQueue.getAt(i);
             }
         }
         return null;
     }
 
     public static boolean deleteByCode(String code){
-        LinkedLstDequeue<Customer> linkedLstDequeue = getAll();
-        for (int i = 0; i < linkedLstDequeue.length(); i++) {
-            if (linkedLstDequeue.getAt(i).getCcode().equals(code)){
-                linkedLstDequeue.delete(i);
-                saveAll(linkedLstDequeue);
+        DoubleLinkedLstQueue<Customer> doubleLinkedLstQueue = getAll();
+        for (int i = 0; i < doubleLinkedLstQueue.length(); i++) {
+            if (doubleLinkedLstQueue.getAt(i).getCcode().equals(code)){
+                doubleLinkedLstQueue.delete(i);
+                saveAll(doubleLinkedLstQueue);
                 return true;
             }
         }
@@ -75,7 +74,7 @@ public class CustomerModel {
 
     @SuppressWarnings("unchecked")
     public static boolean sort(final boolean isLowToHigh){
-        LinkedLstDequeue<Customer> customerLinkedLstDequeue = getAll();
+        DoubleLinkedLstQueue<Customer> customerDoubleLinkedLstQueue = getAll();
         Sort<Customer> customerSort = null;
         if(Constants.TYPE_SORT.equals(Constants.SELECT_SORT)){
             customerSort = new SelectSort<Customer>() {
@@ -90,14 +89,14 @@ public class CustomerModel {
             };
         }
         if (customerSort!=null) {
-            customerLinkedLstDequeue = customerSort.sort(customerLinkedLstDequeue);
-            saveAll(customerLinkedLstDequeue);
+            customerDoubleLinkedLstQueue = customerSort.sort(customerDoubleLinkedLstQueue);
+            saveAll(customerDoubleLinkedLstQueue);
             return true;
         }
         return false;
     }
     
-    public static  LinkedLstDequeue<Customer> searchAll(String code){
+    public static DoubleLinkedLstQueue<Customer> searchAll(String code){
     	Customer customer = new Customer();
     	customer.setCcode(code);
     	TreeSearch<Customer> treeSearch = getTreeSearch();

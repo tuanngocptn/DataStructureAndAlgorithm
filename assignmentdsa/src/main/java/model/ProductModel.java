@@ -1,7 +1,6 @@
 package model;
 
 import etc.Constants;
-import model.entities.Customer;
 import model.entities.Product;
 import model.iofile.ReadFile;
 import model.iofile.WriteFile;
@@ -9,7 +8,7 @@ import model.iofile.WriteFile;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import util.collection.LinkedLstDequeue;
+import util.collection.DoubleLinkedLstQueue;
 import util.collection.LinkedLstStack;
 import util.collection.sort.Sort;
 import util.collection.sort.impl.SelectSort;
@@ -107,7 +106,7 @@ public class ProductModel {
     
     @SuppressWarnings("unchecked")
     public static boolean sort(final boolean isLowToHigh){
-        LinkedLstDequeue<Product> customerLinkedLstDequeue = getAllLinkedLstDequeue();
+        DoubleLinkedLstQueue<Product> customerDoubleLinkedLstQueue = getAllDoubleLinkedLstQueue();
         Sort<Product> productSort = null;
         if(Constants.TYPE_SORT.equals(Constants.SELECT_SORT)){
         	productSort = new SelectSort<Product>() {
@@ -122,15 +121,15 @@ public class ProductModel {
             };
         }
         if (productSort!=null) {
-            customerLinkedLstDequeue = productSort.sort(customerLinkedLstDequeue);            
-            saveAllLinkedLstDequeue(customerLinkedLstDequeue);
+            customerDoubleLinkedLstQueue = productSort.sort(customerDoubleLinkedLstQueue);
+            saveAllDoubleLinkedLstQueue(customerDoubleLinkedLstQueue);
             return true;
         }
         return false;
     }
     
-    private static LinkedLstDequeue<Product> getAllLinkedLstDequeue(){
-        LinkedLstDequeue<Product> productLinkedLstDequeue = new LinkedLstDequeue<Product>();
+    private static DoubleLinkedLstQueue<Product> getAllDoubleLinkedLstQueue(){
+        DoubleLinkedLstQueue<Product> productDoubleLinkedLstQueue = new DoubleLinkedLstQueue<Product>();
         String strCustomerJson = ReadFile.read(Constants.PRODUCT_DATA_URL);
         JSONArray jsonArray = new JSONArray(strCustomerJson);
         for (Object object: jsonArray) {
@@ -141,19 +140,19 @@ public class ProductModel {
             product.setQuantity(jsonObject.getInt(Constants.PRODUCT_QUANTITY));
             product.setSaled(jsonObject.getInt(Constants.PRODUCT_SALE));
             product.setPrice(jsonObject.getDouble(Constants.PRODUCT_PRICE));
-            productLinkedLstDequeue.insertLast(product);
+            productDoubleLinkedLstQueue.insertLast(product);
         }
-        return productLinkedLstDequeue;
+        return productDoubleLinkedLstQueue;
     }   
     
-    public static LinkedLstDequeue<Product> searchAll(String code){
+    public static DoubleLinkedLstQueue<Product> searchAll(String code){
     	Product product = new Product();
     	product.setPcode(code);
     	TreeSearch<Product> treeSearch = getTreeSearch();
     	return treeSearch.searchAll(product);
     }
     
-    private static boolean saveAllLinkedLstDequeue( LinkedLstDequeue<Product> productLinkedLstDequeue){
-        return WriteFile.write(Constants.PRODUCT_DATA_URL,productLinkedLstDequeue.displayForward());
+    private static boolean saveAllDoubleLinkedLstQueue( DoubleLinkedLstQueue<Product> productDoubleLinkedLstQueue){
+        return WriteFile.write(Constants.PRODUCT_DATA_URL, productDoubleLinkedLstQueue.displayForward());
     }
 }
