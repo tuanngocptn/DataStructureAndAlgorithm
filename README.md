@@ -13,3 +13,5 @@ This is my Repository, that is Assignment in "data structure and algorithm" at F
 
 - run "DataStructureAndAlgorithm/assignment_dsa_client/index.html" with browser
 
+
+P/S: server tomcat 8 and jdk 8
