@@ -1,4 +1,4 @@
-package util.collection.sort;
+package util.sort;
 
 import util.collection.DoubleLinkedLstQueue;
 

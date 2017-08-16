@@ -10,8 +10,8 @@ import org.json.JSONObject;
 
 import util.collection.DoubleLinkedLstQueue;
 import util.collection.LinkedLstStack;
-import util.collection.sort.Sort;
-import util.collection.sort.impl.SelectSort;
+import util.sort.Sort;
+import util.sort.impl.SelectSort;
 import util.search.impl.TreeSearch;
 
 public class ProductModel {

@@ -1,7 +1,7 @@
-package util.collection.sort.impl;
+package util.sort.impl;
 
 import util.collection.DoubleLinkedLstQueue;
-import util.collection.sort.Sort;
+import util.sort.Sort;
 
 /**
  *
