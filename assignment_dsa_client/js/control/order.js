@@ -180,7 +180,7 @@ var orderControl = {
             tblSearch.append("<thead><tr><th class='text-center'>Customer Code</th><th class='text-center'>Customer Name</th><th class='text-center'>Customer Phone</th><th class='text-center'></th></tr></thead><tbody>");
             if (typeof tblSearch !== 'undefined' && data.length > 0) {
                 for (var i = 0; i < data.length; i++) {
-                    var onclick = "onclick='order.editCcode(" + data[i].ccode + ")'";
+                    var onclick = "onclick='order.editCcode(" + '"' + data[i].ccode + '"' + ")'";
                     tblSearch.append("<tr " + onclick + " ><td class='text-center'>" + data[i].ccode + "</td><td class='text-center'>" + data[i].cusName + "</td><td class='text-center'>" + data[i].phone + "</td></tr>");
                 }
             }
@@ -194,7 +194,7 @@ var orderControl = {
             tblSearch.append("<thead><tr><th class='text-center'><div onclick='product.sort()'>Product Code <span class='glyphicon glyphicon-sort' aria-hidden='true'/></div></th><th class='text-center'>Product Name</th><th class='text-center'>Product Quantity(es)</th><th class='text-center'>Product Saled</th><th class='text-center'>Product price</th><th class='text-center'></th></tr></thead><tbody>");
             if (typeof tblSearch !== 'undefined' && data.length > 0) {
                 for (var i = 0; i < data.length; i++) {
-                    var onclick = "onclick='order.editPcode(" + data[i].pcode + ")'";
+                    var onclick = "onclick='order.editPcode(" + '"' + data[i].pcode + '"' + ")'";
                     tblSearch.append("<tr " + onclick + " ><td class='text-center'>" + data[i].pcode + "</td><td class='text-center'>" + data[i].proName + "</td><td class='text-center'>" + data[i].quantity + "</td><td class='text-center'>" + data[i].saled + "</td><td class='text-center'>" + data[i].price + "</td></tr>");
                 }
             }
