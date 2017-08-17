@@ -95,13 +95,13 @@ var order = {
             }
         });
     },
-    searchOrder:function(ccodeParam,pcodeParam){
+    searchOrder: function(ccodeParam, pcodeParam) {
         var api = constants.host + constants.order;
         $.ajax({
             type: 'POST',
             url: api,
             dataType: "JSON",
-            data: { action: "search", ccode: ccodeParam, pcode: pcodeParam},
+            data: { action: "search", ccode: ccodeParam, pcode: pcodeParam },
             success: function(data) {
                 orderControl.loadModalSearchResult(data);
             },
@@ -131,14 +131,14 @@ var order = {
         $("#tbl-search").empty();
         $("#ccode").val(ccode);
     },
-    searchProduct: function(){
+    searchProduct: function() {
         var api = constants.host + constants.product;
         var pSearch = $("#pcode").val();
         $.ajax({
             type: 'POST',
             url: api,
             dataType: "JSON",
-            data: {action:"search",pcode:pSearch},
+            data: { action: "search", pcode: pSearch },
             success: function(data) {
                 orderControl.loadProToTblSearch(data);
             },
@@ -147,7 +147,7 @@ var order = {
             }
         });
     },
-    editPcode:function(pcode){  
+    editPcode: function(pcode) {
         $("#tbl-search").empty();
         $("#pcode").val(pcode);
     }
@@ -165,12 +165,12 @@ var orderControl = {
         tblMain.append("<thead><tr><th onclick='" + ccodeSearch + "' class='text-center'>Customer Code <span class='glyphicon glyphicon-sort' aria-hidden='true'/></span></th><th onclick='" + pcodeSearch + "' class='text-center'>Product Code <span class='glyphicon glyphicon-sort' aria-hidden='true'/></span></th><th class='text-center'>Quantity(es)</th><th class='text-center'></th></tr></thead><tbody>");
         if (typeof tblMain !== 'undefined' && data.length > 0) {
             for (var i = 0; i < data.length; i++) {
-                action = 'order.searchOrder("'+ data[i].ccode +'","'+ data[i].pcode +'")';
-                tblMain.append("<tr onclick='"+ action +"'><td class='text-center'>" + data[i].ccode + "</td><td class='text-center'>" + data[i].pcode + "</td><td class='text-center'>" + data[i].quantity + "</td><td class='text-center'></td></tr>");
+                action = 'order.searchOrder("' + data[i].ccode + '","' + data[i].pcode + '")';
+                tblMain.append("<tr onclick='" + action + "'><td class='text-center'>" + data[i].ccode + "</td><td class='text-center'>" + data[i].pcode + "</td><td class='text-center'>" + data[i].quantity + "</td><td class='text-center'></td></tr>");
             }
         }
         action = "order.add()"
-        tblMain.append('</tbody><tfoot><tr><td class="text-center"><input onkeyup="order.searchCustomer()" class="form-control" type="text" name="ccode" id="ccode" placeholder="Customer code"></td><td class="text-center"><input onkeyup="order.searchProduct()" class="form-control" type="text" name="pcode" id="pcode" placeholder="Product code"></td><td class="text-center"><input class="form-control" type="text" name="quantity" id="quantity" placeholder="Quantity(es)"></td><td><div class="btn btn-success text-center" onclick="' + action + '">Add</div></td></tr></tfoot>');
+        tblMain.append('</tbody><tfoot><tr><td class="text-center"><input onkeyup="order.searchCustomer()" class="form-control" type="text" name="ccode" id="ccode" placeholder="Customer code"></td><td class="text-center"><input onkeyup="order.searchProduct()" class="form-control" type="text" name="pcode" id="pcode" placeholder="Product code"></td><td class="text-center"><input class="form-control" type="number" name="quantity" id="quantity" placeholder="Quantity(es)"></td><td><div class="btn btn-success text-center" onclick="' + action + '">Add</div></td></tr></tfoot>');
 
     },
     loadCusToTblSearch: function(data) {
@@ -180,8 +180,7 @@ var orderControl = {
             tblSearch.append("<thead><tr><th class='text-center'>Customer Code</th><th class='text-center'>Customer Name</th><th class='text-center'>Customer Phone</th><th class='text-center'></th></tr></thead><tbody>");
             if (typeof tblSearch !== 'undefined' && data.length > 0) {
                 for (var i = 0; i < data.length; i++) {
-                    var onclick = "onclick='order.editCcode(" + '"' + data[i].ccode + '"' + ")'";
-                    tblSearch.append("<tr " + onclick + " ><td class='text-center'>" + data[i].ccode + "</td><td class='text-center'>" + data[i].cusName + "</td><td class='text-center'>" + data[i].phone + "</td></tr>");
+                    tblSearch.append("<tr onclick='order.editCcode(" + '"' + data[i].ccode + '"' + ")' ><td class='text-center'>" + data[i].ccode + "</td><td class='text-center'>" + data[i].cusName + "</td><td class='text-center'>" + data[i].phone + "</td></tr>");
                 }
             }
             tblSearch.append('</tbody>');
@@ -194,20 +193,17 @@ var orderControl = {
             tblSearch.append("<thead><tr><th class='text-center'><div onclick='product.sort()'>Product Code <span class='glyphicon glyphicon-sort' aria-hidden='true'/></div></th><th class='text-center'>Product Name</th><th class='text-center'>Product Quantity(es)</th><th class='text-center'>Product Saled</th><th class='text-center'>Product price</th><th class='text-center'></th></tr></thead><tbody>");
             if (typeof tblSearch !== 'undefined' && data.length > 0) {
                 for (var i = 0; i < data.length; i++) {
-                    var onclick = "onclick='order.editPcode(" + '"' + data[i].pcode + '"' + ")'";
-                    tblSearch.append("<tr " + onclick + " ><td class='text-center'>" + data[i].pcode + "</td><td class='text-center'>" + data[i].proName + "</td><td class='text-center'>" + data[i].quantity + "</td><td class='text-center'>" + data[i].saled + "</td><td class='text-center'>" + data[i].price + "</td></tr>");
+                    tblSearch.append("<tr onclick='order.editPcode(" + '"' + data[i].pcode + '"' + ")' ><td class='text-center'>" + data[i].pcode + "</td><td class='text-center'>" + data[i].proName + "</td><td class='text-center'>" + data[i].quantity + "</td><td class='text-center'>" + data[i].saled + "</td><td class='text-center'>" + data[i].price + "</td></tr>");
                 }
             }
             tblSearch.append('</tbody>');
         }
     },
-    loadModalSearchResult: function(data){
+    loadModalSearchResult: function(data) {
         console.log(data);
         $("#id-modal-title").text("Order Detail");
-        var result = '<p class="col-md-12">Information Customer and Product:</p><div class="col-md-5"><ul><li>Code: '+ data.customer.ccode +'</li><li>Name: '+ data.customer.cusName +'</li><li>Phone: '+ data.customer.phone +'</li></ul></div><div class="col-md-7"><ul><li>Code: '+ data.product.pcode +'</li><li>Name: '+ data.product.proName +'</li><li>Quantity: '+ data.product.quantity +'</li><li>Saled: '+ data.product.saled +'</li><li>Price: '+ data.product.price +'</li></ul></div><br><br><br><br><br><br>';
+        var result = '<p class="col-md-12">Information Customer and Product:</p><div class="col-md-5"><ul><li>Code: ' + data.customer.ccode + '</li><li>Name: ' + data.customer.cusName + '</li><li>Phone: ' + data.customer.phone + '</li></ul></div><div class="col-md-7"><ul><li>Code: ' + data.product.pcode + '</li><li>Name: ' + data.product.proName + '</li><li>Quantity: ' + data.product.quantity + '</li><li>Saled: ' + data.product.saled + '</li><li>Price: ' + data.product.price + '</li></ul></div><br><br><br><br><br><br>';
         $("#id-modal-content").html(result);
         $('#myModal').modal('show');
     }
 }
-
-
