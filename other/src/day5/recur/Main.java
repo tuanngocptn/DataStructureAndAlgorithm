@@ -6,9 +6,9 @@ public class Main {
         else return n + sum(n - 1);
     }
 
-    static int sum(int[] a, int n) {
-        if (n == 0) return 0;
-        else return sum(a, n - 1) + a[n - 1];
+    static int sum(int[] a, int i) {
+        if (n == a.length) return 0;
+        else return sum(a, i + 1) + a[i + 1];
     }
 
     static int sumSquare(int n) {
