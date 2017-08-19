@@ -22,6 +22,10 @@ public class OrderModel {
 
     }
 
+    /**
+     * get Order list
+     * @return Double Linked list queue of Order
+     */
     public static DoubleLinkedLstQueue<Order> getAll() {
         DoubleLinkedLstQueue<Order> orderDoubleLinkedLstQueue = new DoubleLinkedLstQueue<Order>();
         String strCustomerJson = ReadFile.read(Constants.ORDER_DATA_URL);
@@ -37,6 +41,11 @@ public class OrderModel {
         return orderDoubleLinkedLstQueue;
     }
 
+    /**
+     * Save all to file
+     * @param orderDoubleLinkedLstQueue list need to save
+     * @return true if save successful
+     */
     public static boolean saveAll(DoubleLinkedLstQueue<Order> orderDoubleLinkedLstQueue) {
         return WriteFile.write(Constants.ORDER_DATA_URL, orderDoubleLinkedLstQueue.displayForward());
     }
@@ -56,6 +65,12 @@ public class OrderModel {
         return false;
     }
 
+    /**
+     * sort Order
+     * @param isPCode true when sort by product code and false when sort by customer code
+     * @param isLowToHigh type sort
+     * @return true if sort successful
+     */
     @SuppressWarnings("unchecked")
     public static boolean sort(boolean isPCode, final boolean isLowToHigh) {
         DoubleLinkedLstQueue<Order> orderDoubleLinkedLstQueue = getAll();
@@ -95,6 +110,12 @@ public class OrderModel {
         return false;
     }
 
+    /**
+     * get order by customer code and product code
+     * @param ccode customer code input
+     * @param pcode product code input
+     * @return the String of Order with json format
+     */
     public static String get(String ccode, String pcode) {
         Gson gson = new Gson();
         String result = Constants.DEFAULT_RESULT;

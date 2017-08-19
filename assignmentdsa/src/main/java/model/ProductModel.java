@@ -15,6 +15,10 @@ import util.sort.impl.SelectSort;
 import util.search.impl.TreeSearch;
 
 public class ProductModel {
+    /**
+     * get all products from file
+     * @return the linkedStack of product
+     */
     public static LinkedLstStack<Product> getAll(){
         LinkedLstStack<Product> productLinkedLstStack = new LinkedLstStack<Product>();
         String strCustomerJson = ReadFile.read(Constants.PRODUCT_DATA_URL);
@@ -33,10 +37,20 @@ public class ProductModel {
         return productLinkedLstStack;
     }
 
+    /**
+     * method to save all product to file
+     * @param productLinkedLstStack linkedList of product need to save
+     * @return true if save successful
+     */
     public static boolean saveAll( LinkedLstStack<Product> productLinkedLstStack){
         return WriteFile.write(Constants.PRODUCT_DATA_URL,productLinkedLstStack.display());
     }
 
+    /**
+     * add new product
+     * @param product input need to add
+     * @return true if add successful
+     */
     public static boolean add(Product product){
         LinkedLstStack<Product> productLinkedLstStack = getAll();
         productLinkedLstStack.peek();
@@ -52,7 +66,12 @@ public class ProductModel {
         saveAll(productLinkedLstStack);
         return true;
     }
-    
+
+    /**
+     * delete product by code
+     * @param code input to delete
+     * @return true if delete successful
+     */
     public static boolean deleteByCode(String code){
     	LinkedLstStack<Product> productLinkedLstStack = ProductModel.getAll();
     	productLinkedLstStack.peek();
@@ -74,7 +93,11 @@ public class ProductModel {
     	}
     	return flag;
     }
-    
+
+    /**
+     * get treeSearch of Product from file
+     * @return the treeSearch of product
+     */
     public static TreeSearch<Product> getTreeSearch(){
 		JSONArray jsonArray = new JSONArray(ReadFile.read(Constants.PRODUCT_DATA_URL));
 		TreeSearch<Product> treeSearch = new TreeSearch<Product>(){
@@ -98,12 +121,22 @@ public class ProductModel {
 		}
 		return treeSearch;
     }
-    
+
+    /**
+     * Using treeSearch to get product have the code equal code product in tree
+     * @param product input
+     * @return product with full information or null if not
+     */
     public static Product get(Product product) {
 		TreeSearch<Product> treeSearch = getTreeSearch();
 		return treeSearch.get(product);
 	}
-    
+
+    /**
+     * sort product and save all to file
+     * @param isLowToHigh type of sort
+     * @return true if sort successful
+     */
     @SuppressWarnings("unchecked")
     public static boolean sort(final boolean isLowToHigh){
         DoubleLinkedLstQueue<Product> customerDoubleLinkedLstQueue = getAllDoubleLinkedLstQueue();
@@ -127,7 +160,11 @@ public class ProductModel {
         }
         return false;
     }
-    
+
+    /**
+     * get DoubleLinkedLstQueue of product
+     * @return the Double Linked List Queue of product
+     */
     private static DoubleLinkedLstQueue<Product> getAllDoubleLinkedLstQueue(){
         DoubleLinkedLstQueue<Product> productDoubleLinkedLstQueue = new DoubleLinkedLstQueue<Product>();
         String strCustomerJson = ReadFile.read(Constants.PRODUCT_DATA_URL);
@@ -143,15 +180,25 @@ public class ProductModel {
             productDoubleLinkedLstQueue.insertLast(product);
         }
         return productDoubleLinkedLstQueue;
-    }   
-    
+    }
+
+    /**
+     * Using tree search to search by code
+     * @param code input
+     * @return the double linked list queue of product result
+     */
     public static DoubleLinkedLstQueue<Product> searchAll(String code){
     	Product product = new Product();
     	product.setPcode(code);
     	TreeSearch<Product> treeSearch = getTreeSearch();
     	return treeSearch.searchAll(product);
     }
-    
+
+    /**
+     * save all Product to file
+     * @param productDoubleLinkedLstQueue List need to save
+     * @return true if save successful
+     */
     private static boolean saveAllDoubleLinkedLstQueue( DoubleLinkedLstQueue<Product> productDoubleLinkedLstQueue){
         return WriteFile.write(Constants.PRODUCT_DATA_URL, productDoubleLinkedLstQueue.displayForward());
     }
