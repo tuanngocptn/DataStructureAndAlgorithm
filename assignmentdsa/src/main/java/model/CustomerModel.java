@@ -96,6 +96,24 @@ public class CustomerModel {
     }
 
     /**
+     * edit customer
+     * @param customer customer need edit
+     * @return true if edit success
+     */
+    public static boolean editCustomer(Customer customer){
+        DoubleLinkedLstQueue<Customer> doubleLinkedLstQueue = getAll();
+        for (int i = 0; i < doubleLinkedLstQueue.length(); i++) {
+            if (doubleLinkedLstQueue.getAt(i).getCcode().equals(customer.getCcode())){
+                doubleLinkedLstQueue.delete(i);
+                doubleLinkedLstQueue.insertAt(i,customer);
+                saveAll(doubleLinkedLstQueue);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Sort Customer
      * @param isLowToHigh input sort type
      * @return true if sort successful

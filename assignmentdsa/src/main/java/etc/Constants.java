@@ -52,6 +52,8 @@ public class Constants {
     public static final String GET_ALL_ACTION = "getAll";
     
     public static final String ADD_ACTION = "add";
+
+    public static final String EDIT_ACTION = "edit";
     
     public static final String DELETE_ACTION = "delete";
     

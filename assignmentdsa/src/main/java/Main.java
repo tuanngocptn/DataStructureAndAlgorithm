@@ -11,9 +11,17 @@ import util.collection.LinkedLstStack;
 public class Main {
     @SuppressWarnings("unchecked")
     public static void main(String[] args) {
-        resetProduct();
+        System.out.println(CustomerModel.getAll().displayForward());
+        Customer customer = new Customer();
+        customer.setCcode("C10");
+        customer.setCusName("PT");
+        customer.setPhone("123");
+        CustomerModel.editCustomer(customer);
+        System.out.println(CustomerModel.getAll().displayForward());
+
+        /*resetProduct();
         resetCustomer();
-        resetOrder();
+        resetOrder();*/
     }
 
     private static void resetOrder() {

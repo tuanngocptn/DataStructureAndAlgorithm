@@ -84,6 +84,27 @@ public class Customer extends HttpServlet {
             Init.forbidden(response);
             return;
         }
+
+        if (action.equals(Constants.EDIT_ACTION)) {
+            String ccode = request.getParameter(Constants.CUSTOMER_CCODE);
+            String cusName = request.getParameter(Constants.CUSTOMER_CUSNAME);
+            String phone = request.getParameter(Constants.CUSTOMER_PHONE);
+            if (StringUtils.isBlank(ccode) || StringUtils.isBlank(cusName) || StringUtils.isBlank(phone)) {
+                Init.badRequest(response);
+                return;
+            }
+            model.entities.Customer customer = new model.entities.Customer();
+            customer.setCcode(ccode);
+            customer.setCusName(cusName);
+            customer.setPhone(phone);
+            if (CustomerModel.editCustomer(customer)) {
+                print.write(ReadFile.read(Constants.CUSTOMER_DATA_URL));
+                return;
+            }
+            Init.forbidden(response);
+            return;
+        }
+
         
         if (action.equals(Constants.SEARCH_ACTION)) {
         	String code = request.getParameter(Constants.CUSTOMER_CCODE);

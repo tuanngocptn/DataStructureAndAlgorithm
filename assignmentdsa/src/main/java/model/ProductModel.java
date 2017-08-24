@@ -133,13 +133,31 @@ public class ProductModel {
 	}
 
     /**
+     * edit product.
+     * @param product need edit
+     * @return true if success
+     */
+	public static boolean editProduct(Product product){
+        DoubleLinkedLstQueue<Product> productDoubleLinkedLstQueue = getAllDoubleLinkedLstQueue();
+        for (int i = 0; i < productDoubleLinkedLstQueue.length(); i++) {
+            if (productDoubleLinkedLstQueue.getAt(i).getPcode().equals(product.getPcode())){
+                productDoubleLinkedLstQueue.delete(i);
+                productDoubleLinkedLstQueue.insertAt(i,product);
+                saveAllDoubleLinkedLstQueue(productDoubleLinkedLstQueue);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * sort product and save all to file
      * @param isLowToHigh type of sort
      * @return true if sort successful
      */
     @SuppressWarnings("unchecked")
     public static boolean sort(final boolean isLowToHigh){
-        DoubleLinkedLstQueue<Product> customerDoubleLinkedLstQueue = getAllDoubleLinkedLstQueue();
+        DoubleLinkedLstQueue<Product> productDoubleLinkedLstQueue = getAllDoubleLinkedLstQueue();
         Sort<Product> productSort = null;
         if(Constants.TYPE_SORT.equals(Constants.SELECT_SORT)){
         	productSort = new SelectSort<Product>() {
@@ -154,8 +172,8 @@ public class ProductModel {
             };
         }
         if (productSort!=null) {
-            customerDoubleLinkedLstQueue = productSort.sort(customerDoubleLinkedLstQueue);
-            saveAllDoubleLinkedLstQueue(customerDoubleLinkedLstQueue);
+            productDoubleLinkedLstQueue = productSort.sort(productDoubleLinkedLstQueue);
+            saveAllDoubleLinkedLstQueue(productDoubleLinkedLstQueue);
             return true;
         }
         return false;
