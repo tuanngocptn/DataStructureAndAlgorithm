@@ -12,12 +12,20 @@ import etc.Constants;
 
 /**
  *
- * @author : Pham Tuan Ngoc
+ * @author : Pham Tuan Ngoc - id : gc01007 - class : bt007
  *
  * this class will read file
  */
 public class ReadFile {
-	private static final Logger logger = Logger.getLogger(ReadFile.class);
+
+    /**
+     * private constructor
+     */
+    private ReadFile() {
+        //never use
+    }
+
+    private static final Logger logger = Logger.getLogger(ReadFile.class);
 
     /**
      * read file from url

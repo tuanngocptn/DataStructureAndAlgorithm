@@ -11,17 +11,9 @@ import util.collection.LinkedLstStack;
 public class Main {
     @SuppressWarnings("unchecked")
     public static void main(String[] args) {
-        System.out.println(CustomerModel.getAll().displayForward());
-        Customer customer = new Customer();
-        customer.setCcode("C10");
-        customer.setCusName("PT");
-        customer.setPhone("123");
-        CustomerModel.editCustomer(customer);
-        System.out.println(CustomerModel.getAll().displayForward());
-
-        /*resetProduct();
+        resetProduct();
         resetCustomer();
-        resetOrder();*/
+        resetOrder();
     }
 
     private static void resetOrder() {
@@ -33,16 +25,16 @@ public class Main {
 
     private static void resetProduct(){
         LinkedLstStack<Product> productLinkedLstStack = new LinkedLstStack<Product>();
-        productLinkedLstStack.push(newProduct("MT01","Mì Ăn Liền Hảo Hảo",100,20,5500));
-        productLinkedLstStack.push(newProduct("CD01","Con Đom Đóm",150,10,40000));
-        productLinkedLstStack.push(newProduct("DA01","Dầu Ăn Neptune",50,5,100000));
-        productLinkedLstStack.push(newProduct("MD02","Mì Ăn Liền Miliket",200,10,6000));
-        productLinkedLstStack.push(newProduct("NG01","Cocacola",300,10,12000));
-        productLinkedLstStack.push(newProduct("KE01","Kẹo Mút Chuppachup",150,10,40000));
-        productLinkedLstStack.push(newProduct("NG02","Pepsi",250,10,10000));
+        productLinkedLstStack.push(newProduct("MT01","Mì Ăn Liền Hảo Hảo",100,10,5500));
+        productLinkedLstStack.push(newProduct("CD01","Con Đom Đóm",150,5,40000));
+        productLinkedLstStack.push(newProduct("DA01","Dầu Ăn Neptune",50,0,100000));
+        productLinkedLstStack.push(newProduct("MD02","Mì Ăn Liền Miliket",200,0,6000));
+        productLinkedLstStack.push(newProduct("NG01","Cocacola",300,0,12000));
+        productLinkedLstStack.push(newProduct("KE01","Kẹo Mút Chuppachup",150,0,40000));
+        productLinkedLstStack.push(newProduct("NG02","Pepsi",250,0,10000));
         productLinkedLstStack.push(newProduct("KD01","Colgate",40,0,45000));
-        productLinkedLstStack.push(newProduct("KE02","Kẹo dynamite",250,10,20000));
-        productLinkedLstStack.push(newProduct("KD02","CloseUp",500,3,55000));
+        productLinkedLstStack.push(newProduct("KE02","Kẹo dynamite",250,0,20000));
+        productLinkedLstStack.push(newProduct("KD02","CloseUp",500,0,55000));
         ProductModel.saveAll(productLinkedLstStack);
     }
 

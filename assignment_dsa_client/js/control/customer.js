@@ -8,6 +8,9 @@ $(document).ready(function() {
     $('#sortCustomer').click(function() {
         customer.sort();
     });
+    $('#do-edit-customer').click(function(){
+        customer.doEdit();
+    });
     $("#cusSearch").on("keyup", function() {
         customer.search();
     });
@@ -37,7 +40,6 @@ var customer = {
             }
         });
     },
-
     add: function() {
         var api = constants.host + constants.customer;
         var ccodeParam = $('#ccode').val();
@@ -54,12 +56,61 @@ var customer = {
             error: function(request, status, error) {
                 if (request.status == 403) {
                     $("#id-modal-title").text("Add Error");
-                    $("#id-modal-content").text("Customer code has existed.");
+                    $("#id-modal-content").text(JSON.parse(request.responseText).message);
                     $('#myModal').modal('show');
                 }
                 if (request.status == 400) {
                     $("#id-modal-title").text("Warning");
-                    $("#id-modal-content").text("Please fill all the information.");
+                    $("#id-modal-content").text(JSON.parse(request.responseText).message);
+                    $('#myModal').modal('show');
+                }
+            }
+        });
+    },
+    edit: function(code) {
+        var api = constants.host + constants.customer;
+        $.ajax({
+            type: 'POST',
+            url: api,
+            dataType: "JSON",
+            data: { action: "searchByCode", ccode: code},
+            success: function(data) {
+                var form = '<table align="center"><tr><td class="control-label">Customer Code:</td><td><input class="form-control" type="text" name="editccode" id="editccode" value="'+ data.ccode +'" placeholder="Customer Code" disabled></td></tr><tr><td class="control-label">Customer Name:</td><td><input class="form-control" type="text" name="editcusName" id="editcusName" value="'+ data.cusName +'" placeholder="Customer Name"></td></tr><tr><td class="control-label">Customer Phone:</td><td><input class="form-control" type="text" name="editphone" id="editphone" value="'+ data.phone +'" placeholder="Customer Phone"></td></tr></table>'
+                $("#id-edit-modal-title").text("Edit Customer");
+                $("#id-edit-modal-content").html(form);
+                $("#do-edit-customer").show();
+                $("#do-edit-product").hide();
+                $('#edit-model').modal('show');
+            },
+            error: function(request, status, error) {
+                console.log(error);
+            }
+        });
+    },
+    doEdit: function(code) {
+        var api = constants.host + constants.customer;
+        var ccodeParam = $('#editccode').val();
+        var cusNameParam = $('#editcusName').val();
+        var phoneParam = $('#editphone').val();
+        $.ajax({
+            type: 'POST',
+            url: api,
+            dataType: "JSON",
+            data: { action: "edit", ccode: ccodeParam, cusName: cusNameParam, phone: phoneParam },
+            success: function(data) {
+                $('#edit-model').modal('hide');
+                customerControl.loadToTblMain(data);
+            },
+            error: function(request, status, error) {                
+                $('#edit-model').modal('hide');
+                if (request.status == 403) {
+                    $("#id-modal-title").text("Add Error");
+                    $("#id-modal-content").text(JSON.parse(request.responseText).message);
+                    $('#myModal').modal('show');
+                }
+                if (request.status == 400) {
+                    $("#id-modal-title").text("Warning");
+                    $("#id-modal-content").text(JSON.parse(request.responseText).message);
                     $('#myModal').modal('show');
                 }
             }
@@ -131,7 +182,8 @@ var customerControl = {
         if (typeof tblMain !== 'undefined' && data.length > 0) {
             for (var i = 0; i < data.length; i++) {
                 action = 'customer.delete("' + data[i].ccode + '")';
-                tblMain.append("<tr><td class='text-center'>" + data[i].ccode + "</td><td class='text-center'>" + data[i].cusName + "</td><td class='text-center'>" + data[i].phone + "</td><td class='text-center'1><div class='btn btn-danger' onclick='" + action + "'>Delete</div></td></tr>");
+                var editAction = 'customer.edit("' + data[i].ccode + '")';
+                tblMain.append("<tr><td class='text-center'>" + data[i].ccode + "</td><td class='text-center'>" + data[i].cusName + "</td><td class='text-center'>" + data[i].phone + "</td><td class='text-center'1><div class='btn btn-danger' onclick='" + action + "'>Delete</div> <div class='btn btn-warning' onclick='" + editAction + "'>Edit</div> </td></tr>");
             }
         }
         action = "customer.add()"

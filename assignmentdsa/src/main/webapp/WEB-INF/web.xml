@@ -11,27 +11,27 @@
         <servlet-class>control.servlet.Customer</servlet-class>
     </servlet>
     <servlet>
-    	<servlet-name>Product</servlet-name>
-    	<display-name>Product</display-name>
-    	<description></description>
-    	<servlet-class>control.servlet.Product</servlet-class>
+        <servlet-name>Product</servlet-name>
+        <display-name>Product</display-name>
+        <description></description>
+        <servlet-class>control.servlet.Product</servlet-class>
     </servlet>
     <servlet>
-    	<servlet-name>Order</servlet-name>
-    	<display-name>Order</display-name>
-    	<description></description>
-    	<servlet-class>control.servlet.Order</servlet-class>
+        <servlet-name>Order</servlet-name>
+        <display-name>Order</display-name>
+        <description></description>
+        <servlet-class>control.servlet.Order</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Customer</servlet-name>
         <url-pattern>/Customer</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-    	<servlet-name>Product</servlet-name>
-    	<url-pattern>/Product</url-pattern>
+        <servlet-name>Product</servlet-name>
+        <url-pattern>/Product</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-    	<servlet-name>Order</servlet-name>
-    	<url-pattern>/Order</url-pattern>
+        <servlet-name>Order</servlet-name>
+        <url-pattern>/Order</url-pattern>
     </servlet-mapping>
 </web-app>

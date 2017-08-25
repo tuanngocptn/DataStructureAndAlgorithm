@@ -20,9 +20,6 @@ public class LinkedLstStack<E> {
         }
     }
 
-    public LinkedLstStack() {
-    }
-
     public void push(E value) {
         LinkedLst linkedLst = new LinkedLst(value,null);
         if (isEmpty()) {
@@ -112,16 +109,17 @@ public class LinkedLstStack<E> {
 	}
     
     public boolean delete(int serial){
+        if(pop() == null && serial < 1){
+            return false;
+        }
     	if(serial < 1){
-    	    if(pop() == null){
-    	    	return false;
-    	    }
     	   	return true;
-    	}  	
+    	}
+
+        if(removeLast() == null && serial >= length() - 1){
+            return false;
+        }
     	if (serial >= length() - 1) {
-    		if(removeLast() == null){
-    			return false;
-    		}
 			return true;
 		}
     	LinkedLst linkedLst = head;

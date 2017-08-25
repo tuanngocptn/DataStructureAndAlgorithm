@@ -2,7 +2,7 @@ package model.entities;
 
 /**
  *
- * @author : Pham Tuan Ngoc
+ * @author : Pham Tuan Ngoc - id : gc01007 - class : bt007
  *
  * this is class define Customer
  */

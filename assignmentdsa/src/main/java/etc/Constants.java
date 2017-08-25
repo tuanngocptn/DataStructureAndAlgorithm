@@ -2,15 +2,20 @@ package etc;
 
 /**
  *
- * @author : Pham Tuan Ngoc
+ * @author : Pham Tuan Ngoc - id : gc01007 - class : bt007
  *
  * this is class to define all constants in project
  */
 public class Constants {
-	
-	//URL host to file
-//	public static String ROOT_PATH = "/home/local/SUTRIXMEDIA1/ngoc.pt/Documents/green/code/DataStructureAndAlgorithm/assignmentdsa/";
-	public static final String ROOT_PATH = "/home/panda/Documents/hoctap/dsa/code/DataStructureAndAlgorithm/assignmentdsa/";
+    /**
+     * private constructor
+     */
+    private Constants() {
+    }
+
+    //URL host to file
+	public static String ROOT_PATH = "/home/local/SUTRIXMEDIA1/ngoc.pt/Documents/green/code/DataStructureAndAlgorithm/assignmentdsa/";
+//	public static final String ROOT_PATH = "/home/panda/Documents/hoctap/dsa/code/DataStructureAndAlgorithm/assignmentdsa/";
 
 	//URI to file
     public static final String CUSTOMER_DATA_URL = "src/main/java/etc/data/customer_list.txt";
@@ -59,7 +64,9 @@ public class Constants {
     
     public static final String SORT_ACTION = "sort";
 
-    public static final String SEARCH_ACTION = "search";  
+    public static final String SEARCH_ACTION = "search";
+
+    public static final String SEARCH_BY_CODE_ACTION = "searchByCode";
 
     public static final String SEARCH_TYPE = "type";
 

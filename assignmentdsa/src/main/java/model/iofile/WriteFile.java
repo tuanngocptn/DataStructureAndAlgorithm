@@ -11,12 +11,20 @@ import etc.Constants;
 
 /**
  *
- * @author : Pham Tuan Ngoc
+ * @author : Pham Tuan Ngoc - id : gc01007 - class : bt007
  *
  * this class will write file
  */
 public class WriteFile {
-	private static final Logger logger = Logger.getLogger(WriteFile.class);
+
+    /**
+     * private constructor
+     */
+    private WriteFile() {
+        //not use
+    }
+
+    private static final Logger logger = Logger.getLogger(WriteFile.class);
 
     /**
      * method to write file

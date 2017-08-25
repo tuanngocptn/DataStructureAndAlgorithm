@@ -15,7 +15,15 @@ import javax.servlet.http.HttpServletResponse;
  * this is class use to set header when servlet return value
  */
 public class Init {
-    final static Logger logger = Logger.getLogger(Init.class);
+
+    /**
+     * private constructor
+     */
+    private Init() {
+        // not call
+    }
+
+    private static final Logger logger = Logger.getLogger(Init.class);
 
     /**
      * Allow get api from ajax
@@ -38,13 +46,10 @@ public class Init {
      *
      * @param response servlet response
      */
-    public static void badRequest(HttpServletResponse response) {
-        response.setContentType("text/html");
+    public static void badRequest(HttpServletResponse response, String message) {
         response.setStatus(400);
         try {
-            response.getWriter().write("<!DOCTYPE html><html><head><title>400: Bad Request</title></head><body>");
-            response.getWriter().write("<h1>400: Bad Request</h1>The server cannot or will not process the request due to an apparent client error");
-            response.getWriter().write("</body></html>");
+            response.getWriter().write("{\"message\":\"" + message + "\"}");
         } catch (IOException e) {
             logger.error("IOException: ", e);
         }
@@ -55,13 +60,11 @@ public class Init {
      *
      * @param response servlet response
      */
-    public static void forbidden(HttpServletResponse response){
+    public static void forbidden(HttpServletResponse response, String message){
         response.setContentType("text/html");
         response.setStatus(403);
         try {
-            response.getWriter().write("<!DOCTYPE html><html><head><title>403: Forbidden</title></head><body>");
-            response.getWriter().write("<h1>403: Forbidden</h1>The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.");
-            response.getWriter().write("</body></html>");
+            response.getWriter().write("{\"message\":\"" + message + "\"}");
         } catch (IOException e) {
             logger.error("IOException: ", e);
         }

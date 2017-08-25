@@ -13,6 +13,9 @@ import util.sort.impl.SelectSort;
 import util.sort.Sort;
 import util.search.impl.TreeSearch;
 
+/**
+ * @author : Pham Tuan Ngoc - id : gc01007 - class : bt007
+ */
 public class CustomerModel {
 
     private CustomerModel(){

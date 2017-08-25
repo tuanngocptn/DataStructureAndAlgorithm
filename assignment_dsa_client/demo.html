@@ -2,28 +2,43 @@
 <html>
 
 <head>
-    <title></title>
+    <title>DSA Assigment</title>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
 </head>
 
-<body>
-    <button id="btn1">button</button>
-    <input type="text" name="ccode" id="ccode">
-    <input type="text" name="cusName" id="cusName">
-    <input type="text" name="phone" id="phone">
+<body>    
+    <table>
+        <tr>            
+            <td class="control-label">Product Code:</td>
+            <td><input class="form-control" type="text" name="ccode" id="ccode" value="'+ data.pcode +'" placeholder="Product Code"></td>
+        </tr>
+        <tr>
+            <td class="control-label">Product Name:</td>
+            <td><input class="form-control" type="text" name="cusName" id="cusName" value="'+ data.proName +'" placeholder="Product Name"></td>
+        </tr>
+        <tr>            
+            <td class="control-label">Product Quantity:</td>
+            <td><input class="form-control" type="text" name="phone" id="phone" value="'+ data.quantity +'" placeholder="Product Quantity"></td>
+        </tr>
+        <tr>            
+            <td class="control-label">Product Saled:</td>
+            <td><input class="form-control" type="text" name="phone" id="phone" value="'+ data.saled +'" placeholder="Product Saled"></td>
+        </tr>
+        <tr>            
+            <td class="control-label">Product Price:</td>
+            <td><input class="form-control" type="text" name="phone" id="phone" value="'+ data.price +'" placeholder="Product Price"></td>
+        </tr>
+    </table>
 </body>
 
 </html>
+
 <script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
 <script type="text/javascript" src="js/constants.js"></script>
 <script type="text/javascript" src="js/control/customer.js"></script>
-<script type="text/javascript">
-$(document).ready(function() {
-    $('#btn1').click(function() {
-    	var obj = customer.getAll();
-    	if(obj.length > 0){
-    		console.log(obj);
-    	}
-    	
-    });
-});
-</script>
+<script type="text/javascript" src="js/control/product.js"></script>
+<script type="text/javascript" src="js/control/order.js"></script>

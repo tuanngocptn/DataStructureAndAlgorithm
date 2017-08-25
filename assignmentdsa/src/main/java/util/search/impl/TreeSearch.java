@@ -7,14 +7,14 @@ import util.search.Search;
 
 /**
  *
- * @author : Pham Tuan Ngoc
+ * @author : Pham Tuan Ngoc - id : gc01007 - class : bt007
  *
  * this class will read file
  */
 public abstract class TreeSearch<E> implements Search<E>{
 	
-	final static Logger logger = Logger.getLogger(TreeSearch.class);
-	public Tree root;
+	private static final Logger logger = Logger.getLogger(TreeSearch.class);
+	private Tree root;
 	public TreeSearch(){
 		root = null;
 	}

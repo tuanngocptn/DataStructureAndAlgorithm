@@ -15,6 +15,14 @@ import util.sort.impl.SelectSort;
 import util.search.impl.TreeSearch;
 
 public class ProductModel {
+
+    /**
+     * private constructor
+     */
+    private ProductModel() {
+        //never use
+    }
+
     /**
      * get all products from file
      * @return the linkedStack of product

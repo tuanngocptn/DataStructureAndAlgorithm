@@ -6,6 +6,7 @@ import model.CustomerModel;
 import model.iofile.ReadFile;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,19 +17,27 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- *
- * @author : Pham Tuan Ngoc
- *
+ * @author : Pham Tuan Ngoc - id : gc01007 - class : bt007
+ * <p>
  * this is servlet class provided Customer API
  */
 public class Customer extends HttpServlet {
+    private static final Logger logger = Logger.getLogger(Customer.class);
+    private static final String FORMAT_SEARCH_TEXT = "{\"ccode\":\"%s\",\"cusName\":\"%s\",\"phone\":\"%s\"}";
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Init.setHeader(request, response);
-        PrintWriter print = response.getWriter();
+        PrintWriter print;
+        try {
+            print = response.getWriter();
+        } catch (Exception ex) {
+            logger.error("Exception", ex);
+            return;
+        }
         String action = request.getParameter(Constants.ACTION);
         if (StringUtils.isBlank(action)) {
-            Init.badRequest(response);
+            Init.badRequest(response, "action null or empty");
             return;
         }
 
@@ -42,7 +51,7 @@ public class Customer extends HttpServlet {
             String cusName = request.getParameter(Constants.CUSTOMER_CUSNAME);
             String phone = request.getParameter(Constants.CUSTOMER_PHONE);
             if (StringUtils.isBlank(ccode) || StringUtils.isBlank(cusName) || StringUtils.isBlank(phone)) {
-                Init.badRequest(response);
+                Init.badRequest(response, "please fill all field");
                 return;
             }
             model.entities.Customer customer = new model.entities.Customer();
@@ -53,35 +62,35 @@ public class Customer extends HttpServlet {
                 print.write(ReadFile.read(Constants.CUSTOMER_DATA_URL));
                 return;
             }
-            Init.forbidden(response);
+            Init.forbidden(response, "add false");
             return;
         }
 
         if (action.equals(Constants.DELETE_ACTION)) {
             String ccode = request.getParameter(Constants.CUSTOMER_CCODE);
             if (StringUtils.isBlank(ccode)) {
-                Init.badRequest(response);
+                Init.badRequest(response, "please fill all field");
                 return;
             }
             if (CustomerModel.deleteByCode(ccode)) {
                 print.write(ReadFile.read(Constants.CUSTOMER_DATA_URL));
                 return;
             }
-            Init.forbidden(response);
+            Init.forbidden(response, "delete false");
             return;
         }
-        
+
         if (action.equals(Constants.SORT_ACTION)) {
             String strLowToHigh = request.getParameter(Constants.IS_LOW_TO_HIGH);
             if (StringUtils.isBlank(strLowToHigh) || !(strLowToHigh.equals("1") || strLowToHigh.equals("0"))) {
-                Init.badRequest(response);
+                Init.badRequest(response, "please fill all field");
                 return;
             }
             if (CustomerModel.sort(strLowToHigh.equals("1"))) {
                 print.write(ReadFile.read(Constants.CUSTOMER_DATA_URL));
                 return;
             }
-            Init.forbidden(response);
+            Init.forbidden(response, "sort false");
             return;
         }
 
@@ -90,7 +99,7 @@ public class Customer extends HttpServlet {
             String cusName = request.getParameter(Constants.CUSTOMER_CUSNAME);
             String phone = request.getParameter(Constants.CUSTOMER_PHONE);
             if (StringUtils.isBlank(ccode) || StringUtils.isBlank(cusName) || StringUtils.isBlank(phone)) {
-                Init.badRequest(response);
+                Init.badRequest(response, "please fill all field");
                 return;
             }
             model.entities.Customer customer = new model.entities.Customer();
@@ -101,24 +110,43 @@ public class Customer extends HttpServlet {
                 print.write(ReadFile.read(Constants.CUSTOMER_DATA_URL));
                 return;
             }
-            Init.forbidden(response);
+            Init.forbidden(response, "edit false");
             return;
         }
 
-        
+
         if (action.equals(Constants.SEARCH_ACTION)) {
-        	String code = request.getParameter(Constants.CUSTOMER_CCODE);
+            String code = request.getParameter(Constants.CUSTOMER_CCODE);
             if (StringUtils.isBlank(code)) {
-                Init.badRequest(response);
+                Init.badRequest(response, "please fill all field");
                 return;
             }
             print.write(CustomerModel.searchAll(code).displayForward());
             return;
         }
+
+        if (action.equals(Constants.SEARCH_BY_CODE_ACTION)) {
+            String code = request.getParameter(Constants.CUSTOMER_CCODE);
+            if (StringUtils.isBlank(code)) {
+                Init.badRequest(response, "please fill all field");
+                return;
+            }
+            model.entities.Customer customer = new model.entities.Customer();
+            customer.setCcode(code);
+            customer = CustomerModel.get(customer);
+            print.write(String.format(FORMAT_SEARCH_TEXT, customer.getCcode(), customer.getCusName(), customer.getPhone()));
+            return;
+        }
         print.write(Constants.DEFAULT_RESULT);
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
+        try {
+            doPost(request, response);
+        } catch (Exception ex) {
+            logger.error("Exception", ex);
+        }
+
     }
 }

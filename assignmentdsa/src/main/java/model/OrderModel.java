@@ -15,11 +15,18 @@ import util.sort.Sort;
 import util.sort.impl.SelectSort;
 import etc.Constants;
 
+/**
+ * @author : Pham Tuan Ngoc - id : gc01007 - class : bt007
+ */
+
 public class OrderModel {
     private static final String FORMAT_SEARCH_TEXT = "{\"customer\":%s,\"product\":%s}";
 
-    public OrderModel() {
-
+    /**
+     * private constructor
+     */
+    private OrderModel() {
+        //never use
     }
 
     /**
@@ -59,6 +66,9 @@ public class OrderModel {
         product = ProductModel.get(product);
         customer = CustomerModel.get(customer);
         if (customer != null && product != null) {
+            product.setSaled(product.getSaled() + order.getQuantity());
+            product.setQuantity(product.getQuantity() - order.getQuantity());
+            ProductModel.editProduct(product);
             doubleLinkedLstQueue.insertLast(order);
             return saveAll(doubleLinkedLstQueue);
         }

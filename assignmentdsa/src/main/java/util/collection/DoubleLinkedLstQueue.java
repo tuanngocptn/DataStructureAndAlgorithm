@@ -2,11 +2,14 @@ package util.collection;
 
 import com.google.gson.Gson;
 
+/**
+ * @author : Pham Tuan Ngoc - id : gc01007 - class : bt007
+ * @param <E> generic input
+ */
 public class DoubleLinkedLstQueue<E> {
 
     private LinkedLst head = null;
     private LinkedLst tail = null;
-    private LinkedLst current = null;
 
     class LinkedLst {
         E e;

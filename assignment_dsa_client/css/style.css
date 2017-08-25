@@ -8,11 +8,6 @@ body {
     min-height: 100%;
 }
 
-.btn-danger,
-.btn-success {
-    width: 100%;
-}
-
 .btn-default,
 .btn-primary {
     border-bottom-left-radius: 0 !important;

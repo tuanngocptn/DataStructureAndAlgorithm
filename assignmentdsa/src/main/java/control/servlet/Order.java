@@ -19,44 +19,54 @@ import control.Init;
 import etc.Constants;
 
 /**
- *
- * @author : Pham Tuan Ngoc
- *
+ * @author : Pham Tuan Ngoc - id : gc01007 - class : bt007
+ * <p>
  * this is servlet class provided Order API
  */
 public class Order extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-    Logger logger = Logger.getLogger(Order.class);
+    private static final long serialVersionUID = 1L;
+    private static final Logger logger = Logger.getLogger(Order.class);
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Init.setHeader(request, response);
-        PrintWriter print = response.getWriter();
-        String action = request.getParameter(Constants.ACTION);
-        if (StringUtils.isBlank(action)) {
-            Init.badRequest(response);
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Init.setHeader(request, response);
+        PrintWriter print;
+        try {
+            print = response.getWriter();
+        } catch (Exception ex) {
+            logger.error("getWriter Exception", ex);
             return;
         }
-        
+        String action = request.getParameter(Constants.ACTION);
+        if (StringUtils.isBlank(action)) {
+            Init.badRequest(response, "Action null or empty");
+            return;
+        }
+
         if (action.equals(Constants.GET_ALL_ACTION)) {
             print.write(ReadFile.read(Constants.ORDER_DATA_URL));
             return;
         }
-        
+
         if (action.equals(Constants.ADD_ACTION)) {
-        	String ccode = request.getParameter(Constants.ORDER_CUSTOMER_CODE);
+            String ccode = request.getParameter(Constants.ORDER_CUSTOMER_CODE);
             String pcode = request.getParameter(Constants.ORDER_PRODUCT_CODE);
             String strQuantity = request.getParameter(Constants.ORDER_QUANTITY);
             if (StringUtils.isBlank(ccode) || StringUtils.isBlank(pcode) || StringUtils.isBlank(strQuantity)) {
-                Init.badRequest(response);
+                Init.badRequest(response, "Please fill all field.");
                 return;
             }
-            int quantity = 0;
-            try{
-            	quantity = Integer.parseInt(strQuantity);
-            }catch(ParseException e){
-            	logger.error("ParseException: ",e);
+            int quantity;
+            try {
+                quantity = Integer.parseInt(strQuantity);
+            } catch (ParseException ex) {
+                quantity = 1;
+                logger.error("ParseException: ", ex);
+            } catch (Exception ex) {
+                quantity = 1;
+                logger.error("Exception", ex);
             }
-            
+
             model.entities.Order order = new model.entities.Order();
             order.setCcode(ccode);
             order.setPcode(pcode);
@@ -65,40 +75,46 @@ public class Order extends HttpServlet {
                 print.write(ReadFile.read(Constants.ORDER_DATA_URL));
                 return;
             }
-            Init.forbidden(response);
+            Init.forbidden(response, "Add Order false");
             return;
         }
-        
+
         if (action.equals(Constants.SORT_ACTION)) {
-        	String type = request.getParameter(Constants.SEARCH_TYPE);
-        	String strLowToHigh = request.getParameter(Constants.IS_LOW_TO_HIGH);
-        	if (StringUtils.isBlank(strLowToHigh) || !(strLowToHigh.equals("1") || strLowToHigh.equals("0"))
-        			|| StringUtils.isBlank(type) || !(type.equals(Constants.ORDER_PRODUCT_CODE) || type.equals(Constants.ORDER_CUSTOMER_CODE))) {
-                Init.badRequest(response);
+            String type = request.getParameter(Constants.SEARCH_TYPE);
+            String strLowToHigh = request.getParameter(Constants.IS_LOW_TO_HIGH);
+            if (StringUtils.isBlank(strLowToHigh) || !(strLowToHigh.equals("1") || strLowToHigh.equals("0"))
+                    || StringUtils.isBlank(type) || !(type.equals(Constants.ORDER_PRODUCT_CODE) || type.equals(Constants.ORDER_CUSTOMER_CODE))) {
+                Init.badRequest(response, "please fill all field");
                 return;
             }
-        	if (OrderModel.sort(type.equals(Constants.ORDER_PRODUCT_CODE),strLowToHigh.equals("1"))) {
+            if (OrderModel.sort(type.equals(Constants.ORDER_PRODUCT_CODE), strLowToHigh.equals("1"))) {
                 print.write(ReadFile.read(Constants.ORDER_DATA_URL));
                 return;
             }
-            Init.forbidden(response);
+            Init.forbidden(response, "Sort false");
             return;
         }
-        if (action.equals(Constants.FIND_ORDER_ACTION)) {
+        if (action.equals(Constants.SEARCH_ACTION)) {
             String ccode = request.getParameter(Constants.ORDER_CUSTOMER_CODE);
             String pcode = request.getParameter(Constants.ORDER_PRODUCT_CODE);
             if (StringUtils.isBlank(ccode) || StringUtils.isBlank(pcode)) {
-                Init.badRequest(response);
+                Init.badRequest(response, "ccode or pcode is null or empty");
                 return;
             }
-            print.write(OrderModel.get(ccode,pcode));
+            print.write(OrderModel.get(ccode, pcode));
             return;
         }
 
         print.write(Constants.DEFAULT_RESULT);
-	}
+    }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
+        try {
+            doPost(request, response);
+        } catch (Exception ex) {
+            logger.error("Exception", ex);
+        }
+
     }
 }
