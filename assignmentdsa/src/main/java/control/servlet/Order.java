@@ -53,41 +53,15 @@ public class Order extends HttpServlet {
         if (action.equals(Constants.ADD_ACTION)) {
             String ccode = request.getParameter(Constants.ORDER_CUSTOMER_CODE);
             String pcode = request.getParameter(Constants.ORDER_PRODUCT_CODE);
-            String strQuantity = request.getParameter(Constants.ORDER_QUANTITY);
-            if (StringUtils.isBlank(ccode) || StringUtils.isBlank(pcode) || StringUtils.isBlank(strQuantity)) {
+            if (StringUtils.isBlank(ccode) || StringUtils.isBlank(pcode)) {
                 Init.badRequest(response, "Any field blank or wrong type input");
-                return;
-            }
-            int quantity;
-            try {
-                quantity = Integer.parseInt(strQuantity);
-            } catch (ParseException ex) {
-                Init.forbidden(response, "Quantity Error");
-                logger.error("ParseException: ", ex);
-                return;
-            } catch (Exception ex) {
-                Init.forbidden(response, "Quantity Error");
-                logger.error("Exception", ex);
-                return;
-            }
-
-            Product product = new Product();
-            product.setPcode(pcode);
-            product = ProductModel.get(product);
-            if(quantity > product.getQuantity()){
-                Init.forbidden(response, "Don't have enough ' "+product.getProName() +" ' for sale");
-                return;
-            }
-
-            if(quantity < 1 || quantity > 999999999){
-                Init.forbidden(response, "Quantity error");
                 return;
             }
 
             model.entities.Order order = new model.entities.Order();
             order.setCcode(ccode);
             order.setPcode(pcode);
-            order.setQuantity(quantity);
+            order.setQuantity(0);
             if (OrderModel.add(order)) {
                 print.write(ReadFile.read(Constants.ORDER_DATA_URL));
                 return;

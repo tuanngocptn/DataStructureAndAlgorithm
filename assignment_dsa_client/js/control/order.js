@@ -10,6 +10,10 @@ $(document).ready(function() {
     $("#sortOrderByPCode").click(function() {
         order.sort("pcode");
     });
+
+    $("#id-do-pick-product").click(function() {
+        order.doEditSearchField();
+    })
 })
 
 var order = {
@@ -51,9 +55,6 @@ var order = {
                 orderControl.loadToTblMain(data);
             },
             error: function(request, status, error) {
-                console.log(JSON.parse(request.responseText).message);
-                console.log(status);
-                console.log(error);
                 if (request.status == 403) {
                     $("#id-modal-title").text("Add Error");
                     $("#id-modal-content").text(JSON.parse(request.responseText).message)
@@ -98,7 +99,7 @@ var order = {
             }
         });
     },
-    searchOrder: function(ccodeParam, pcodeParam, quantity) {
+    searchOrder: function(ccodeParam, pcodeParam) {
         var api = constants.host + constants.order;
         $.ajax({
             type: 'POST',
@@ -106,7 +107,8 @@ var order = {
             dataType: "JSON",
             data: { action: "search", ccode: ccodeParam, pcode: pcodeParam },
             success: function(data) {
-                orderControl.loadModalSearchResult(data, quantity);
+                console.log(data);1
+                orderControl.loadModalSearchResult(data);
             },
             error: function(request, status, error) {
                 console.log(error);
@@ -153,6 +155,49 @@ var order = {
     editPcode: function(pcode) {
         $("#tbl-search").empty();
         $("#pcode").val(pcode);
+    },
+    showPickProduct: function() {
+        var api = constants.host + constants.product;
+        $.ajax({
+            type: 'POST',
+            url: api,
+            dataType: "JSON",
+            data: { action: "getAll" },
+            success: function(data) {
+                orderControl.loadToTblPickProduct(data);
+                $('#id-pick-product').modal('show');
+            },
+            error: function(request, status, error) {
+                console.log(error);
+            }
+        });
+    },
+    checkValue: function(data) {
+        if (parseInt(data.value) < data.min) {
+            data.value = 0;
+        }
+        if (parseInt(data.value) > data.max) {
+            data.value = data.max;
+        }
+        if (isNaN(parseInt(data.value))) {
+            data.value = 0;
+        }
+    },
+    doEditSearchField: function() {
+        var api = constants.host + constants.product;
+        $.ajax({
+            type: 'POST',
+            url: api,
+            dataType: "JSON",
+            data: { action: "getAll" },
+            success: function(data) {
+                orderControl.loadToProductField(data);
+                $('#id-pick-product').modal('hide');
+            },
+            error: function(request, status, error) {
+                console.log(error);
+            }
+        });
     }
 }
 
@@ -165,15 +210,15 @@ var orderControl = {
         tblMain.empty();
         var ccodeSearch = 'order.sort("ccode")'
         var pcodeSearch = 'order.sort("pcode")'
-        tblMain.append("<thead><tr><th onclick='" + ccodeSearch + "' class='text-center'>Customer Code <span class='glyphicon glyphicon-sort' aria-hidden='true'/></span></th><th onclick='" + pcodeSearch + "' class='text-center'>Product Code <span class='glyphicon glyphicon-sort' aria-hidden='true'/></span></th><th class='text-center'>Quantity(es)</th><th class='text-center'></th></tr></thead><tbody>");
+        tblMain.append("<thead><tr><th class='text-center'>Code</th><th onclick='" + ccodeSearch + "' class='text-center'>Customer Code <span class='glyphicon glyphicon-sort' aria-hidden='true'/></span></th><th onclick='" + pcodeSearch + "' class='text-center'>Product <span class='glyphicon glyphicon-sort' aria-hidden='true'/></span></th><th></th></tr></thead><tbody>");
         if (typeof tblMain !== 'undefined' && data.length > 0) {
             for (var i = 0; i < data.length; i++) {
-                action = 'order.searchOrder("' + data[i].ccode + '","' + data[i].pcode + '","' + data[i].quantity + '")';
-                tblMain.append("<tr onclick='" + action + "'><td class='text-center'>" + data[i].ccode + "</td><td class='text-center'>" + data[i].pcode + "</td><td class='text-center'>" + data[i].quantity + "</td><td class='text-center'></td></tr>");
+                action = 'order.searchOrder("' + data[i].ccode + '","' + data[i].pcode + '")';
+                tblMain.append("<tr onclick='" + action + "'><td class='text-center'>" + (i + 1) + "</td><td class='text-center'>" + data[i].ccode + "</td><td class='text-center'>" + data[i].pcode + "</td><td class='text-center'></td></tr>");
             }
         }
         action = "order.add()"
-        tblMain.append('</tbody><tfoot><tr><td class="text-center"><input onkeyup="order.searchCustomer()" class="form-control" type="text" name="ccode" id="ccode" placeholder="Customer code"></td><td class="text-center"><input onkeyup="order.searchProduct()" class="form-control" type="text" name="pcode" id="pcode" placeholder="Product code"></td><td class="text-center"><input class="form-control" type="number" name="quantity" id="quantity" value="1" placeholder="Quantity(es)"></td><td><div class="btn btn-success text-center" onclick="' + action + '">Add</div></td></tr></tfoot>');
+        tblMain.append('</tbody><tfoot><tr><th></th><td class="text-center"><input onkeyup="order.searchCustomer()" class="form-control" type="text" name="ccode" id="ccode" placeholder="Customer code"></td><td class="text-center" onclick="order.showPickProduct()"><input disabled class="form-control" type="text" name="pcode" id="pcode" placeholder="Product"></td><td><div class="btn btn-success text-center" onclick="' + action + '">Add</div></td></tr></tfoot>');
 
     },
     loadCusToTblSearch: function(data) {
@@ -202,12 +247,50 @@ var orderControl = {
             tblSearch.append('</tbody>');
         }
     },
-    loadModalSearchResult: function(data, quantity) {
-        console.log(data);
+    loadModalSearchResult: function(data) {
         $("#id-modal-title").text("Order Detail");
-        var total = quantity * data.product.price;
-        var result = '<p class="col-md-12">Information Customer and Product:</p><div class="col-md-5"><ul><li>Code: ' + data.customer.ccode + '</li><li>Name: ' + data.customer.cusName + '</li><li>Phone: ' + data.customer.phone + '</li></ul></div><div class="col-md-7"><ul><li>Code: ' + data.product.pcode + '</li><li>Name: ' + data.product.proName + '</li><li>Quantity: ' + quantity + '</li><li>Price: ' + data.product.price + '</li></ul></div><div class="col-md-7 col-md-offset-5">Total:&#09;'+ total +'$</div>';
+        var result = "<p class='text-center'> - <b>Code:</b> "+ data.customer.ccode +" - <b>Name:</b> "+ data.customer.cusName +" - <b>Phone:</b> "+ data.customer.phone +" - </p>";
+        if (data.product.length > 0) {
+            result = result + "<table class='table'>";
+            var total = 0;
+            for (var i = 0; i < data.product.length; i++) {
+                result += "<tr><td class='text-center'>"+ data.product[i].pcode +"</td><td class='text-center'>"+ data.product[i].proName +"</td><td class='text-center'>"+ data.product[i].quantity +"</td><td class='text-center'>"+ data.product[i].price +" $</td></tr>"
+                total += (data.product[i].quantity * data.product[i].price);
+            }
+            result += "<tr><td class='text-center'></td><td class='text-center'></td><td class='text-center'>Total:</td><td class='text-center'>"+ total +" $</td></tr>"
+            console.log(total);
+            result = result + "</table>";
+        }
         $("#id-modal-content").html(result);
         $('#myModal').modal('show');
+    },
+    loadToTblPickProduct: function(data) {
+        var tblPick = $("#tbl-pick-product");
+        var action = "";
+        tblPick.empty();
+        tblPick.append("<thead><tr><th class='text-center'>Product Code</th><th class='text-center'>Product Name</th><th class='text-center'>Product Quantity(es)</th></tr></thead><tbody>");
+        if (typeof tblPick !== 'undefined' && data.length > 0) {
+            for (var i = 0; i < data.length; i++) {
+                action = 'product.delete("' + data[i].pcode + '")';
+                var editAction = 'product.edit("' + data[i].pcode + '")';
+                tblPick.append("<tr><td class='text-center'>" + data[i].pcode + "</td><td class='text-center'>" + data[i].proName + "</td><td class='text-center'><input onkeyup='order.checkValue(this)' type='number' id='id-pick-" + data[i].pcode + "' data-code='" + data[i].pcode + "' min='0' max='" + data[i].quantity + "' class='form-control' type='text' placeholder='Product Quantity'></td></tr>");
+            }
+        }
+
+    },
+    loadToProductField: function(data) {
+        if (data.length > 0) {
+            var result = "";
+            for (var i = 0; i < data.length; i++) {
+                var attribute = $("#id-pick-" + data[i].pcode);
+                if(parseInt(attribute.val()) > 0){
+                    result = result + attribute.attr("data-code") + ":" + attribute.val() + ",";
+                }
+            }
+            if(result.length>0){
+                result = result.substring(0, result.length - 1);
+            }
+            $("#pcode").val(result);
+        }
     }
 }

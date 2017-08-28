@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import util.collection.DoubleLinkedLstQueue;
+import util.collection.LinkedLstStack;
 import util.sort.Sort;
 import util.sort.impl.SelectSort;
 import etc.Constants;
@@ -42,7 +43,7 @@ public class OrderModel {
             Order order = new Order();
             order.setCcode(jsonObject.getString(Constants.ORDER_CUSTOMER_CODE));
             order.setPcode(jsonObject.getString(Constants.ORDER_PRODUCT_CODE));
-            order.setQuantity(jsonObject.getInt(Constants.ORDER_QUANTITY));
+            order.setQuantity(0);
             orderDoubleLinkedLstQueue.insertLast(order);
         }
         return orderDoubleLinkedLstQueue;
@@ -59,20 +60,22 @@ public class OrderModel {
 
     public static boolean add(Order order) {
         DoubleLinkedLstQueue<Order> doubleLinkedLstQueue = getAll();
-        Product product = new Product();
-        product.setPcode(order.getPcode());
-        Customer customer = new Customer();
-        customer.setCcode(order.getCcode());
-        product = ProductModel.get(product);
-        customer = CustomerModel.get(customer);
-        if (customer != null && product != null) {
-            product.setSaled(product.getSaled() + order.getQuantity());
-            product.setQuantity(product.getQuantity() - order.getQuantity());
+        String productStr = order.getPcode();
+        String[] arrProduct = productStr.split(",");
+        for (String str: arrProduct) {
+            String[] productArr = str.split(":");
+            Product product = new Product();
+            product.setPcode(productArr[0]);
+            product = ProductModel.get(product);
+            if (product.getQuantity() < Integer.parseInt(productArr[1])){
+                return false;
+            }
+            product.setQuantity(product.getQuantity() - Integer.parseInt(productArr[1]));
+            product.setSaled(product.getSaled() + Integer.parseInt(productArr[1]));
             ProductModel.editProduct(product);
-            doubleLinkedLstQueue.insertLast(order);
-            return saveAll(doubleLinkedLstQueue);
         }
-        return false;
+        doubleLinkedLstQueue.insertLast(order);
+        return saveAll(doubleLinkedLstQueue);
     }
 
     /**
@@ -129,14 +132,23 @@ public class OrderModel {
     public static String get(String ccode, String pcode) {
         Gson gson = new Gson();
         String result = Constants.DEFAULT_RESULT;
-        Product product = new Product();
         Customer customer = new Customer();
-        product.setPcode(pcode);
         customer.setCcode(ccode);
-        product = ProductModel.get(product);
         customer = CustomerModel.get(customer);
-        if (product != null && customer != null) {
-            result = String.format(FORMAT_SEARCH_TEXT, gson.toJson(customer), gson.toJson(product));
+
+        String[] strArr = pcode.split(",");
+        LinkedLstStack<Product> productLinkedLstStack = new LinkedLstStack<Product>();
+        for (String str: strArr) {
+            String[] arr = str.split(":");
+            Product product = new Product();
+            product.setPcode(arr[0]);
+            product = ProductModel.get(product);
+            product.setSaled(0);
+            product.setQuantity(Integer.parseInt(arr[1]));
+            productLinkedLstStack.push(product);
+        }
+        if(customer != null){
+            result = String.format(FORMAT_SEARCH_TEXT,gson.toJson(customer),productLinkedLstStack.display());
         }
         return result;
     }

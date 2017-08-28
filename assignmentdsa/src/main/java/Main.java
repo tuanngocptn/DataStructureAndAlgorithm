@@ -18,17 +18,17 @@ public class Main {
 
     private static void resetOrder() {
         DoubleLinkedLstQueue<Order> orderDoubleLinkedLstQueue = new DoubleLinkedLstQueue<Order>();
-        orderDoubleLinkedLstQueue.insertLast(newOrder("C01","MT01",10));
-        orderDoubleLinkedLstQueue.insertLast(newOrder("C02","CD01",5));
+        orderDoubleLinkedLstQueue.insertLast(newOrder("C01","MT01:5,CD01:15",0));
+        orderDoubleLinkedLstQueue.insertLast(newOrder("C02","CD01:10,MD02:5",0));
         OrderModel.saveAll(orderDoubleLinkedLstQueue);
     }
 
     private static void resetProduct(){
         LinkedLstStack<Product> productLinkedLstStack = new LinkedLstStack<Product>();
-        productLinkedLstStack.push(newProduct("MT01","Mì Ăn Liền Hảo Hảo",100,10,5500));
-        productLinkedLstStack.push(newProduct("CD01","Con Đom Đóm",150,5,40000));
+        productLinkedLstStack.push(newProduct("MT01","Mì Ăn Liền Hảo Hảo",100,5,5500));
+        productLinkedLstStack.push(newProduct("CD01","Con Đom Đóm",150,25,40000));
         productLinkedLstStack.push(newProduct("DA01","Dầu Ăn Neptune",50,0,100000));
-        productLinkedLstStack.push(newProduct("MD02","Mì Ăn Liền Miliket",200,0,6000));
+        productLinkedLstStack.push(newProduct("MD02","Mì Ăn Liền Miliket",200,5,6000));
         productLinkedLstStack.push(newProduct("NG01","Cocacola",300,0,12000));
         productLinkedLstStack.push(newProduct("KE01","Kẹo Mút Chuppachup",150,0,40000));
         productLinkedLstStack.push(newProduct("NG02","Pepsi",250,0,10000));
