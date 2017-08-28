@@ -75,7 +75,7 @@ var customer = {
             dataType: "JSON",
             data: { action: "searchByCode", ccode: code},
             success: function(data) {
-                var form = '<table align="center"><tr><td class="control-label">Customer Code:</td><td><input class="form-control" type="text" name="editccode" id="editccode" value="'+ data.ccode +'" placeholder="Customer Code" disabled></td></tr><tr><td class="control-label">Customer Name:</td><td><input class="form-control" type="text" name="editcusName" id="editcusName" value="'+ data.cusName +'" placeholder="Customer Name"></td></tr><tr><td class="control-label">Customer Phone:</td><td><input class="form-control" type="text" name="editphone" id="editphone" value="'+ data.phone +'" placeholder="Customer Phone"></td></tr></table>'
+                var form = '<table align="center"><tr><td class="control-label">Customer Code:</td><td><input class="form-control" type="text" name="editccode" id="editccode" value="'+ data.ccode +'" placeholder="Customer Code" disabled></td></tr><tr><td class="control-label">Customer Name:</td><td><input class="form-control" type="text" name="editcusName" id="editcusName" value="'+ data.cusName +'" placeholder="Customer Name"></td></tr><tr><td class="control-label">Customer Phone:</td><td><input class="form-control" type="text" name="editphone" id="editphone" type="number" value="'+ data.phone +'" placeholder="Customer Phone"></td></tr></table>'
                 $("#id-edit-modal-title").text("Edit Customer");
                 $("#id-edit-modal-content").html(form);
                 $("#do-edit-customer").show();

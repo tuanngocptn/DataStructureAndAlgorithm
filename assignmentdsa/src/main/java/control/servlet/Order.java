@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.OrderModel;
+import model.ProductModel;
+import model.entities.Product;
 import model.iofile.ReadFile;
 
 import org.apache.commons.lang.StringUtils;
@@ -53,18 +55,33 @@ public class Order extends HttpServlet {
             String pcode = request.getParameter(Constants.ORDER_PRODUCT_CODE);
             String strQuantity = request.getParameter(Constants.ORDER_QUANTITY);
             if (StringUtils.isBlank(ccode) || StringUtils.isBlank(pcode) || StringUtils.isBlank(strQuantity)) {
-                Init.badRequest(response, "Please fill all field.");
+                Init.badRequest(response, "Any field blank or wrong type input");
                 return;
             }
             int quantity;
             try {
                 quantity = Integer.parseInt(strQuantity);
             } catch (ParseException ex) {
-                quantity = 1;
+                Init.forbidden(response, "Quantity Error");
                 logger.error("ParseException: ", ex);
+                return;
             } catch (Exception ex) {
-                quantity = 1;
+                Init.forbidden(response, "Quantity Error");
                 logger.error("Exception", ex);
+                return;
+            }
+
+            Product product = new Product();
+            product.setPcode(pcode);
+            product = ProductModel.get(product);
+            if(quantity > product.getQuantity()){
+                Init.forbidden(response, "Don't have enough ' "+product.getProName() +" ' for sale");
+                return;
+            }
+
+            if(quantity < 1 || quantity > 999999999){
+                Init.forbidden(response, "Quantity error");
+                return;
             }
 
             model.entities.Order order = new model.entities.Order();

@@ -57,7 +57,7 @@ public class Product extends HttpServlet {
             String price = request.getParameter(Constants.PRODUCT_PRICE);
             if (StringUtils.isBlank(pcode) || StringUtils.isBlank(proName) || StringUtils.isBlank(quantity)
                     || StringUtils.isBlank(saled) || StringUtils.isBlank(price)) {
-                Init.badRequest(response, "Please fill all fields");
+                Init.badRequest(response, "Any field blank or wrong type input");
                 return;
             }
             int quantityInte = 0;
@@ -71,6 +71,18 @@ public class Product extends HttpServlet {
                 logger.error("ParseException: ", ex);
             } catch (Exception ex) {
                 logger.error("parse error", ex);
+            }
+            if(quantityInte < 1 || quantityInte > 999999999){
+                Init.forbidden(response, "Quantity error");
+                return;
+            }
+            if(saledInte < 0 || saledInte > 999999999){
+                Init.forbidden(response, "Saled error");
+                return;
+            }
+            if(priceDoub < 1 || priceDoub > 999999999){
+                Init.forbidden(response, "Price error");
+                return;
             }
             model.entities.Product product = new model.entities.Product();
             product.setPcode(pcode);
@@ -108,7 +120,7 @@ public class Product extends HttpServlet {
             String price = request.getParameter(Constants.PRODUCT_PRICE);
             if (StringUtils.isBlank(pcode) || StringUtils.isBlank(proName) || StringUtils.isBlank(quantity)
                     || StringUtils.isBlank(saled) || StringUtils.isBlank(price)) {
-                Init.badRequest(response, "please fill all field");
+                Init.badRequest(response, "Any field blank or wrong type input");
                 return;
             }
             int quantityInte = 0;
@@ -122,6 +134,19 @@ public class Product extends HttpServlet {
                 logger.error("ParseException: ", ex);
             } catch (Exception ex) {
                 logger.error("Exception", ex);
+            }
+
+            if(quantityInte < 1 || quantityInte > 999999999){
+                Init.forbidden(response, "Quantity error");
+                return;
+            }
+            if(saledInte < 0 || saledInte > 999999999){
+                Init.forbidden(response, "Saled error");
+                return;
+            }
+            if(priceDoub < 1 || priceDoub > 999999999){
+                Init.forbidden(response, "Price error");
+                return;
             }
             model.entities.Product product = new model.entities.Product();
             product.setPcode(pcode);
@@ -153,7 +178,7 @@ public class Product extends HttpServlet {
         if (action.equals(Constants.SEARCH_ACTION)) {
             String code = request.getParameter(Constants.PRODUCT_CODE);
             if (StringUtils.isBlank(code)) {
-                Init.badRequest(response, "");
+                Init.badRequest(response, "badRequest: sort false");
                 return;
             }
             print.write(ProductModel.searchAll(code).displayForward());
@@ -163,7 +188,7 @@ public class Product extends HttpServlet {
         if (action.equals(Constants.SEARCH_BY_CODE_ACTION)) {
             String code = request.getParameter(Constants.PRODUCT_CODE);
             if (StringUtils.isBlank(code)) {
-                Init.badRequest(response, "");
+                Init.badRequest(response, "badRequest: sort false");
                 return;
             }
             model.entities.Product product = new model.entities.Product();

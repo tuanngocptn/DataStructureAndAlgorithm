@@ -2,6 +2,7 @@ package control.servlet;
 
 import control.Init;
 import etc.Constants;
+import jdk.nashorn.internal.runtime.ParserException;
 import model.CustomerModel;
 import model.iofile.ReadFile;
 
@@ -51,18 +52,28 @@ public class Customer extends HttpServlet {
             String cusName = request.getParameter(Constants.CUSTOMER_CUSNAME);
             String phone = request.getParameter(Constants.CUSTOMER_PHONE);
             if (StringUtils.isBlank(ccode) || StringUtils.isBlank(cusName) || StringUtils.isBlank(phone)) {
-                Init.badRequest(response, "please fill all field");
+                Init.badRequest(response, "Any field blank or wrong type input");
                 return;
             }
             model.entities.Customer customer = new model.entities.Customer();
             customer.setCcode(ccode);
             customer.setCusName(cusName);
             customer.setPhone(phone);
+            try {
+                long longPhone = Long.parseLong(phone);
+                if(longPhone < 100000000 || longPhone > 10000000*10000000){
+                    Init.forbidden(response, "Wrong phone number");
+                    return;
+                }
+            }catch (ParserException ex){
+                Init.forbidden(response, "Wrong phone number");
+                return;
+            }
             if (CustomerModel.add(customer)) {
                 print.write(ReadFile.read(Constants.CUSTOMER_DATA_URL));
                 return;
             }
-            Init.forbidden(response, "add false");
+            Init.forbidden(response, "Add false");
             return;
         }
 
@@ -83,7 +94,7 @@ public class Customer extends HttpServlet {
         if (action.equals(Constants.SORT_ACTION)) {
             String strLowToHigh = request.getParameter(Constants.IS_LOW_TO_HIGH);
             if (StringUtils.isBlank(strLowToHigh) || !(strLowToHigh.equals("1") || strLowToHigh.equals("0"))) {
-                Init.badRequest(response, "please fill all field");
+                Init.badRequest(response, "Any field blank or wrong type input");
                 return;
             }
             if (CustomerModel.sort(strLowToHigh.equals("1"))) {
@@ -100,6 +111,16 @@ public class Customer extends HttpServlet {
             String phone = request.getParameter(Constants.CUSTOMER_PHONE);
             if (StringUtils.isBlank(ccode) || StringUtils.isBlank(cusName) || StringUtils.isBlank(phone)) {
                 Init.badRequest(response, "please fill all field");
+                return;
+            }
+            try {
+                long longPhone = Long.parseLong(phone);
+                if(longPhone < 100000000 || longPhone > 10000000*10000000){
+                    Init.forbidden(response, "Wrong phone number");
+                    return;
+                }
+            }catch (ParserException ex){
+                Init.forbidden(response, "Wrong phone number");
                 return;
             }
             model.entities.Customer customer = new model.entities.Customer();
