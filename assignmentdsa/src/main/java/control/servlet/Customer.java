@@ -61,7 +61,7 @@ public class Customer extends HttpServlet {
             customer.setPhone(phone);
             try {
                 long longPhone = Long.parseLong(phone);
-                if(longPhone < 100000000 || longPhone > 10000000*10000000){
+                if(longPhone < 100000000 || longPhone > 99999999999L){
                     Init.forbidden(response, "Wrong phone number");
                     return;
                 }
